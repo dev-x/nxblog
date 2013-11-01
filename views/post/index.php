@@ -6,7 +6,7 @@ $this->title = 'aaaa';
 
 	<div class="jumbotron">
 		<?php foreach ($data as $post) : ?>
-		<h2> <?php echo Html::a($post->title, array('post/show', 'id'=>$post->id)); ?></h2>
+		<p> <?php echo Html::a($post->title, array('post/show', 'id'=>$post->id)); ?></p>
 		<?php endforeach; ?>
 
 	</div>
