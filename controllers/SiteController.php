@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\BaseSecurity;
 use yii\web\AccessControl;
 use yii\web\Controller;
 use yii\web\VerbFilter;
@@ -63,6 +64,7 @@ class SiteController extends Controller
 		if ($model->load($_POST) && $model->login()) {
 			return $this->goBack();
 		} else {
+//            echo "-".\yii\helpers\BaseSecurity::generatePasswordHash($model->password)."-";
 			return $this->render('login', [
 				'model' => $model,
 			]);

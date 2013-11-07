@@ -3,7 +3,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
 	'id' => 'bootstrap',
 	'basePath' => dirname(__DIR__),
-	'extensions' => require(__DIR__ . '/../vendor/yii-extensions.php'),
+//	'extensions' => require(__DIR__ . '/../vendor/yii-extensions.php'),
 	'components' => [
 		'request' => [
 			'enableCsrfValidation' => true,
@@ -31,9 +31,9 @@ $config = [
 		],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=YII2', // MySQL, MariaDB
+            'dsn' => 'mysql:host=localhost;dbname=nxblog', // MySQL, MariaDB
             'username' => 'root',
-            'password' => '9317',
+            'password' => '',
             'charset' => 'utf8',
         ],	],
 	'params' => $params,
