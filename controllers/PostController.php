@@ -6,6 +6,8 @@ use Yii;
 use yii\helpers\BaseJson;
 use yii\web\Controller;
 use app\models\Post;
+use app\models\Comment;
+
 
 class PostController extends Controller
 {
@@ -24,21 +26,45 @@ class PostController extends Controller
 
 	public function actionShow($id=null)
 	{
-		if ($id) 
-		$post = Post::find($_GET['id']);
+		if ($id){ 
+		$post = Post::find($id);
+		//$comments = Comment::find()->where(['parent_id' => $id])->all();
+	      //print_r($comments);
+              	    
+            //if (isset($_POST['_csrf'])) {
+                $modelNewComment = new Comment;
+                
+                if ($modelNewComment->load($_POST)) {
+                    $modelNewComment->parent_id = $id;
+                    $modelNewComment->parent_type = 0;
+                    $modelNewComment->user_id = 1;
+                    if ($modelNewComment->save()) {
+                        unset($modelNewComment);
+                        $modelNewComment = new Comment;
+                    };
+                }
 
-		//echo $post->getPostTitle();
+                $comments = $post->getComments()->all();
+	}
+	
+
+
 		
-		return $this->render('show', array(
+		
+		echo $this->render('show', array(
 				'post' => $post,
+				'comments' => $comments,
+				'modelNewComment' => $modelNewComment
 			));
 	}
 	
 	public function actionIndex($user_id=NULL){
 		 if ($user_id === NULL) {
      	     $data = Post::find()->all();
-	     } else 
-	     	     $data = Post::find()->where(['user_id' => $user_id])->all();
+	     } else {
+                 
+                 $data = Post::find()->where(['user_id' => $user_id])->all();
+             }
 
          echo $this->render('index', array(
            'data' => $data

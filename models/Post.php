@@ -6,6 +6,7 @@ class Post extends \yii\db\ActiveRecord
 {
 
 	
+
 	public static function tableName()
     {
         return 'post';
@@ -23,16 +24,17 @@ class Post extends \yii\db\ActiveRecord
             'content' => 'Content',
              );
     }
+      public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['parent_id' => 'id']);
+    }
 /*
 	public function getId()
 	{
 		return $this->id;
 	}
 
-	public function getPostTitle()
-	{
-		return '11111'; //$this->post_title;
-	}
+	
 
 	public function getPostContent()
 	{
