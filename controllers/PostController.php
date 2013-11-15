@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\BaseJson;
 use yii\web\Controller;
 use app\models\Post;
 

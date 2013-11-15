@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-$this->title = 'aaaa';
+$this->title = '';
 ?>
 <div class="site-index">
 

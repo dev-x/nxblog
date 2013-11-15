@@ -5,6 +5,21 @@ $config = [
 	'basePath' => dirname(__DIR__),
 //	'extensions' => require(__DIR__ . '/../vendor/yii-extensions.php'),
 	'components' => [
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        //    'enableStrictParsing' => true,
+            'rules'=>array(
+                '' => 'site/index',
+                'about' => 'site/about',
+                'posts'=>'post/index',
+                'post/<id:\d+>'=>'post/show',
+                'users'=>'user/index',
+                'users/<username:\w+>'=>'user/show',
+                'users/<username:\w+>/posts'=>'post/index',
+
+            ),
+        ],
 		'request' => [
 			'enableCsrfValidation' => true,
 		],
