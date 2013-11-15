@@ -34,11 +34,13 @@ class PostController extends Controller
             //if (isset($_POST['_csrf'])) {
                 $modelNewComment = new Comment;
                 
-                if ($modelNewComment->load($_POST)) {
+                if ($modelNewComment->load($_POST) && !Yii::$app->user->isGuest) {
                     $modelNewComment->parent_id = $id;
                     $modelNewComment->parent_type = 0;
-                    $modelNewComment->user_id = 1;
+                    $modelNewComment->user_id = Yii::$app->user->id;
+                    $modelNewComment->created = date("Y-m-d H:i:s");
                     if ($modelNewComment->save()) {
+                        //$this->redirect(array('post/show', 'id'=>5));
                         unset($modelNewComment);
                         $modelNewComment = new Comment;
                     };

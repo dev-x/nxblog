@@ -25,6 +25,12 @@ class Comment extends \yii\db\ActiveRecord
             'content' => 'Content',
              );
     }
+    
+    function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+        
 
     public function rules()
     {
