@@ -7,6 +7,7 @@ use yii\helpers\BaseJson;
 use yii\web\Controller;
 use app\models\Post;
 use app\models\Comment;
+use app\models\User;
 
 
 class PostController extends Controller
@@ -33,26 +34,10 @@ class PostController extends Controller
               	    
             //if (isset($_POST['_csrf'])) {
                 $modelNewComment = new Comment;
-                
-                if ($modelNewComment->load($_POST) && !Yii::$app->user->isGuest) {
-                    $modelNewComment->parent_id = $id;
-                    $modelNewComment->parent_type = 0;
-                    $modelNewComment->user_id = Yii::$app->user->id;
-                    $modelNewComment->created = date("Y-m-d H:i:s");
-                    if ($modelNewComment->save()) {
-                        //$this->redirect(array('post/show', 'id'=>5));
-                        unset($modelNewComment);
-                        $modelNewComment = new Comment;
-                    };
-                }
 
                 $comments = $post->getComments()->all();
 	}
-	
 
-
-		
-		
 		echo $this->render('show', array(
 				'post' => $post,
 				'comments' => $comments,
@@ -60,17 +45,39 @@ class PostController extends Controller
 			));
 	}
 	
-	public function actionIndex($user_id=NULL){
-		 if ($user_id === NULL) {
+	public function actionIndex($username=NULL){
+		 if ($username === NULL) {
      	     $data = Post::find()->all();
-	     } else {
-                 
-                 $data = Post::find()->where(['user_id' => $user_id])->all();
-             }
-
-         echo $this->render('index', array(
+                                       echo $this->render('index', array(
            'data' => $data
            ));	
+	     } else {
+                 $modelNewPost = new Post;
+                 $author = User::findByUsername($username);
+                 if ($author && $author->id) 
+                   $data = Post::find()->where(['user_id' => $author->id])->all();
+ 
+                          echo $this->render('index', array(
+           'data' => $data,
+           'author' => $author,
+             'modelNewPost'=>$modelNewPost
+           ));	
+                          
+             }
+
+
 	}
+        
+        public function actionCreate(){
+                $modelNewPost = new Post;
+                
+                if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
+                    $modelNewPost->user_id = Yii::$app->user->id;
+                  if ($modelNewPost->save()) {
+                        $this->redirect(array('post/index', 'username'=>$modelNewPost->Author->username));
+//                        $this->redirect(array('user/show', 'username'=>Yii::$app->user->username));
+                    };
+                }
+        }
 
 }

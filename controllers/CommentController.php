@@ -27,18 +27,21 @@ class CommentController extends Controller
 		return $this->render('show', array('comment' => $comment));
 	}
 	
-	public function actionCreate($content)
+	public function actionCreate()
     {
         $model = new Comment();
-        $model->user_id = 1;
-        $model->parent_type = 0;
-        $model->content = $content;
         
-        if ($model->load($_POST) && $model->save()) {
-                return Yii::$app->response->redirect(array('post/show', 'id' => $model->parent_id));
-        } else {
-            //echo $this->render('create', array('model' => $model));
-        }
+                if ($model->load($_POST) && !Yii::$app->user->isGuest) {
+                    $model->parent_type = 0;
+                    $model->user_id = Yii::$app->user->id;
+                    $model->created = date("Y-m-d H:i:s");
+                    print_r($_POST);
+                    if ($model->save()) {
+                        echo '111';
+                    }
+                  // $this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
+                  // $this->redirect(array('post/show', 'id'=>$model->parent_id));
+                }
     }
 
 }
