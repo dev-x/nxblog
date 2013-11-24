@@ -23,8 +23,13 @@ use yii\helpers\Html;
          
 		</div>
 		<?php foreach ($comments as $comment) : ?>
-   <?php echo $comment->author->username." - ".$comment->created; echo "<br/>";   ?>
+        <div style="overflow: hidden;margin:10px;">
+           <?php if (!empty($comment->author->avatar)) {
+               echo '<div style="float:right"><img src="/nxblog/web'.str_replace('.', '_is.', $comment->author->avatar).'"></div>';
+           } ?>
+   <div><?php echo $comment->author->username." - ".$comment->created; echo "<br/>";   ?></div>
 		<p > <?php echo $comment->content; ?></p>
+        </div>
 		<?php endforeach; ?>
 	
 	</div>
