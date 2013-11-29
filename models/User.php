@@ -44,4 +44,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return \yii\helpers\BaseSecurity::validatePassword($password, $this->password_hash);
 //		return $this->password === $password;
 	}
+
+    public function getUserImages()
+    {
+        return $this->hasMany(Image::className(), ['parent_id' => 'id'])->where("parent_type = 'user'");
+    }
+
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['user_id' => 'id']);
+    }
 }

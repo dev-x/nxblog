@@ -35,12 +35,11 @@ class CommentController extends Controller
                     $model->parent_type = 0;
                     $model->user_id = Yii::$app->user->id;
                     $model->created = date("Y-m-d H:i:s");
-                    print_r($_POST);
                     if ($model->save()) {
-                        echo '111';
+
                     }
-                  // $this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
-                  // $this->redirect(array('post/show', 'id'=>$model->parent_id));
+                  //$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
+                   $this->redirect(array('post/show', 'id'=>$model->parent_id));
                 }
     }
 

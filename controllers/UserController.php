@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\User;
 use app\models\Image;
+use app\models\Post;
 
 class UserController extends Controller
 {
@@ -22,6 +23,11 @@ class UserController extends Controller
 		);
 	}
 
+    public function actionIndex() {
+        $users = User::find()->all();
+        return $this->render('index', ['users' => $users]);
+    }
+
 	public function actionShow($username=null)
     {
         $user = User::findByUsername($username);
@@ -29,7 +35,34 @@ class UserController extends Controller
         if ($user) {}
         $image = new Image();
 
-        return $this->render('show', ['modelUser' => $user, 'modelImage' => $image]);
+        //$images = $user->getUserImages();
+        $modelNewPost = new Post();
+
+        return $this->render('show', ['modelUser' => $user, 'modelImage' => $image, 'modelNewPost' => $modelNewPost]);
+    }
+
+    public function actionImages($username=null)
+    {
+        $user = User::findByUsername($username);
+        $image = new Image();
+
+        return $this->render('images', ['modelUser' => $user, 'modelImage' => $image]);
+    }
+
+    public function actionProfile($username=null)
+    {
+        $user = User::findByUsername($username);
+        $image = new Image();
+
+        return $this->render('profile', ['modelUser' => $user, 'modelImage' => $image]);
+    }
+
+    public function actionPosts($username=null)
+    {
+        $user = User::findByUsername($username);
+        $image = new Image();
+
+        return $this->render('posts', ['modelUser' => $user, 'modelImage' => $image]);
     }
 
 }

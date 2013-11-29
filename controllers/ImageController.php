@@ -55,7 +55,7 @@ class ImageController extends Controller
                $res = '{"status": "ok", "img": "content/'.$model->file_name."_ib".$model->file_ext.'"}';
 
                $user = User::find($model->parent_id);
-               $user->avatar = "/".$fn;
+               $user->avatar = $fn;
                $user->save();
 
                $ok = true;
