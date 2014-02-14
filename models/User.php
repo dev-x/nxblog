@@ -54,4 +54,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->hasMany(Post::className(), ['user_id' => 'id']);
     }
+	public function getPcount() {
+            $command = static::getDb()->createCommand("select count(*) as kilk from post where user_id = {$this->id}")->queryAll();
+            return $command[0]['kilk'];
+	}
 }

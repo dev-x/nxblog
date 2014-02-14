@@ -22,8 +22,9 @@ app\config\AppAsset::register($this);
 <?php $this->beginBody(); ?>
 	<?php
 		NavBar::begin([
-			'brandLabel' => 'Моя компанія',
-			'brandUrl' => Yii::$app->homeUrl,
+			'brandLabel' => 'Моя Сторінка',
+			'brandUrl' => Yii::$app->user->isGuest ? ['/site/login']:
+				['/users/'.Yii::$app->user->identity->username.''],
 			'options' => [
 				'class' => 'navbar-inverse navbar-fixed-top',
 			],
@@ -31,7 +32,6 @@ app\config\AppAsset::register($this);
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav pull-right'],
 			'items' => [
-				['label' => 'Home', 'url' => ['/site/index']],
 				['label' => 'Posts', 'url' => ['/post/index']],
 				['label' => 'About', 'url' => ['/site/about']],
 				['label' => 'Contact', 'url' => ['/site/contact']],

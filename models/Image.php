@@ -32,12 +32,12 @@ class Image extends \yii\db\ActiveRecord
     }
 
     function getParentObject()
-    {
-        switch ($this->parent_type) {
-        case 'post': return $this->hasOne(Post::className(), ['id' => 'parent_id']); break;
-        case 'user': return $this->hasOne(User::className(), ['id' => 'parent_id']); break;
-        }
-    }
+		{
+			switch ($this->parent_type) {
+			case 'post': return $this->hasOne(Post::className(), ['id' => 'parent_id']); break;
+			case 'user': return $this->hasOne(User::className(), ['id' => 'parent_id']); break;
+			}
+		}
 
     public function rules()
     {

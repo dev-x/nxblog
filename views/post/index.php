@@ -1,7 +1,7 @@
 <?php
 
-$this->title = 'X';
+$this->title = 'Блоги';
 ?>
-
-<?php echo $this->render('/site/_posts', array('data' => $data)); ?>
-
+<div id="">
+	<?php echo $this->render('/site/_posts', array('data' =>$data,'pagination'=>$pagination)); ?>
+</div>

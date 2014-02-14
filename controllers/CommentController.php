@@ -36,11 +36,20 @@ class CommentController extends Controller
                     $model->user_id = Yii::$app->user->id;
                     $model->created = date("Y-m-d H:i:s");
                     if ($model->save()) {
-
+						//$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
                     }
-                  //$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
-                   $this->redirect(array('post/show', 'id'=>$model->parent_id));
+                  $this->redirect(array('post/show', 'id'=>$model->parent_id));
                 }
     }
-
+	
+	public function actionDelete($id,$idP)
+	{
+		$comment = Comment::find($id);
+		$comment->delete();
+		$this->redirect(array('post/show', 'id'=>$idP));
+		//$this->redirect(array('/posts'));
+		//$this->loadModel($id)->delete();
+		//$this->redirect(array('post/show', 'id'=>$model->parent_id));		
+	}
+	
 }

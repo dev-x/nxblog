@@ -9,10 +9,10 @@ $this->title = $modelUser->username;
         display: none;
     }
 </style>
-<div style="float:right; width: 200px;">
-<?= $modelUser->username; ?>
-<div id="forimage">
-<img src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $modelUser->avatar); ?>">
+<div class="avatar">
+<p style='font-size:25px' class='text-primary'><?= $modelUser->username; ?></p>
+<div class="forimage">
+	<img src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $modelUser->avatar); ?>">
 </div>
 <?php if (!Yii::$app->user->isGuest && ($modelUser->id == Yii::$app->user->id)) : ?>
 <?php $form = ActiveForm::begin([
@@ -25,7 +25,7 @@ $this->title = $modelUser->username;
 <?php echo $form->field($modelImage, 'file_name')->fileInput(); /*ActiveForm::fileInput();*/ ?>
 <?php /*echo Html::submitButton('Submit', ['class' => 'btn btn-primary']); */ ?>
 <?php ActiveForm::end(); ?>
-<a href="#" id="upload_button">Upload Image</a>
+<a href="#" id="upload_button"><b>Змінити аватар</b></a>
 <!--<button id="upload_button">Upload Image</button>-->
 <?php endif; ?>
 <script>
@@ -99,5 +99,4 @@ $this->title = $modelUser->username;
     })();
 
 </script>
-
 </div>
