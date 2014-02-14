@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'adminEmail' => 'admin@example.com',
+        'adminEmail' => 'admin@example.com',
     'thumbnails' => [
         'user' => [
             'medium' => ['width' => 800, 'height' => 600, 'crop' => false, 'suffix' => '_m'],
@@ -16,5 +16,3 @@ return [
         ]
     ]
 ];
-//VK 604x604, 200x200, 100x100, 50x50
-//FB 160x160 100x100 48x48 32x32

@@ -42,7 +42,9 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
 		return [
-			['parent_id,parent_type,user_id', 'required'],
+			['parent_id', 'required'],
+                    ['parent_type', 'required'],
+                    ['user_id', 'required'],
 			// email has to be a valid email address
 //			['email', 'email'],
 			// verifyCode needs to be entered correctly

@@ -20,7 +20,7 @@ class Post extends \yii\db\ActiveRecord
         return array(
             'id' => 'ID',
             'title' => 'Title',
-            'content' => 'Content',
+            'content' => 'ВАШ КОНЕНТ',
             'post_time' => 'post_time',
              );
     }

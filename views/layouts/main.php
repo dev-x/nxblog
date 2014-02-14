@@ -8,7 +8,7 @@ use yii\widgets\Breadcrumbs;
  * @var $this \yii\base\View
  * @var $content string
  */
-app\config\AppAsset::register($this);
+app\assets\AppAsset::register($this);
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -28,14 +28,18 @@ app\config\AppAsset::register($this);
 			'options' => [
 				'class' => 'navbar-inverse navbar-fixed-top',
 			],
-		]);
+        ]);
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav pull-right'],
 			'items' => [
+			  /*Yii::$app->user->isGuest ?
+				['label' => 'Home', 'url' => ['/site/login']]:
+				['label' => 'Home', 'url' => ['/users/'.Yii::$app->user->identity->username]],*/
 				['label' => 'Posts', 'url' => ['/post/index']],
 				['label' => 'About', 'url' => ['/site/about']],
 				['label' => 'Contact', 'url' => ['/site/contact']],
 				['label' => 'Users', 'url' => ['/user/index']],
+				['label' => 'Signup', 'url' => ['/site/signup']],
 				Yii::$app->user->isGuest ?
 					['label' => 'Login', 'url' => ['/site/login']] :
 					['label' => 'Logout (' . Yii::$app->user->identity->username .')' ,

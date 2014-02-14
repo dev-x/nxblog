@@ -21,11 +21,12 @@ class LoginForm extends Model
 	{
 		return [
 			// username and password are both required
-			['username, password', 'required'],
+			['username','required'],
+                        ['password','required'],
 			// password is validated by validatePassword()
-			['password', 'validatePassword'],
+			['password','validatePassword'],
 			// rememberMe must be a boolean value
-			['rememberMe', 'boolean'],
+			['rememberMe','boolean'],
 		];
 	}
 
