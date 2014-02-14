@@ -21,6 +21,7 @@ class Post extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'content' => 'Content',
+            'post_time' => 'post_time',
              );
     }
 
@@ -52,7 +53,13 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-
+	
+	public function getCcount() {
+            $command = static::getDb()->createCommand("select count(*) as kilk from comment where parent_id = {$this->id}")->queryAll();
+            return $command[0]['kilk'];
+	}
+	
+	
     public function rules()
     {
 		return [

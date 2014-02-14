@@ -35,7 +35,7 @@ class ImageController extends Controller
 //        print_r($_POST);
         $model->load($_POST);
 		
-        $error = '1';
+        $error = 'qwqe';
         $f = UploadedFile::getInstance($model, 'file_name');
         if ($f) {
            $error = '2';

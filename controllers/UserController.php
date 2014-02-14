@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\User;
 use app\models\Image;
 use app\models\Post;
+use yii\data\ActiveDataProvider;
 
 class UserController extends Controller
 {
@@ -24,8 +25,15 @@ class UserController extends Controller
 	}
 
     public function actionIndex() {
-        $users = User::find()->all();
-        return $this->render('index', ['users' => $users]);
+        /*($users = User::find()->all();
+        return $this->render('index', ['users' => $users]);*/
+		$query = User::find();
+		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>$_GET['pageSize']?:6]]);
+		echo $this->render('index', [
+			'users'=>$model->getModels(),
+			'pagination'=>$model->pagination,
+			'count'=>$model->pagination->totalCount
+		]);
     }
 
 	public function actionShow($username=null)
@@ -37,6 +45,8 @@ class UserController extends Controller
 
         //$images = $user->getUserImages();
         $modelNewPost = new Post();
+		
+		
 
         return $this->render('show', ['modelUser' => $user, 'modelImage' => $image, 'modelNewPost' => $modelNewPost]);
     }
