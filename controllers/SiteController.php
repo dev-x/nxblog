@@ -10,6 +10,7 @@ use yii\web\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\ActiveDataProvider;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -96,4 +97,21 @@ class SiteController extends Controller
 	{
 		return $this->render('about');
 	}
+	public function actionSignup()
+	{
+
+             $model = new User();
+		if ($model->load($_POST)){
+		$model->password_hash = \yii\helpers\BaseSecurity::generatePasswordHash($model->password);
+                $model->auth_key = 'key';
+                if ($model->save()) {
+			if (Yii::$app->getUser()->login($model)) {
+				return $this->goHome();
+			}
+		}
+	}
+		return $this->render('signup', [
+			'model' => $model,
+		]);
+        }
 }

@@ -34,8 +34,7 @@ class ImageController extends Controller
             //UploadedFile::getInstance();
 //        print_r($_POST);
         $model->load($_POST);
-		
-        $error = 'qwqe';
+        $error = '1';
         $f = UploadedFile::getInstance($model, 'file_name');
         if ($f) {
            $error = '2';
@@ -48,6 +47,7 @@ class ImageController extends Controller
            $fn = 'content/'.$model->file_name.$model->file_ext;
            if ($f->saveAs($fn)) {
                $file_info = [];
+              
                \app\lib\Image::resize($fn, Yii::$app->params['thumbnails'][$model->parent_type], $file_info);
 
                $error = '3';
