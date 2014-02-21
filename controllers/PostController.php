@@ -52,7 +52,7 @@ class PostController extends Controller
 	public function actionIndex(){
 		$query = Post::find();
 		//$query->orderBy("title ASC");
-		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>$_GET['pageSize']?:5]]);
+		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>  isset($_GET['pageSize'])?$_GET['pageSize']:5]]);
 		echo $this->render('index', [
 			'data'=>$model->getModels(),
 			'pagination'=>$model->pagination,
@@ -90,7 +90,7 @@ class PostController extends Controller
                     $modelNewPost->user_id = Yii::$app->user->id;
 					$modelNewPost->post_time = date("Y-m-d H:i:s");
                   if ($modelNewPost->save()) {
-                        $this->redirect(array('user/show', 'username'=>$modelNewPost->Author->username));
+                        $this->redirect(array('user/show', 'username'=>$modelNewPost->author->username));
 //                        $this->redirect(array('user/show', 'username'=>Yii::$app->user->username));
                     };
                 }

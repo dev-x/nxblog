@@ -28,7 +28,7 @@ class UserController extends Controller
         /*($users = User::find()->all();
         return $this->render('index', ['users' => $users]);*/
 		$query = User::find();
-		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>$_GET['pageSize']?:6]]);
+		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>isset($_GET['pageSize'])?$_GET['pageSize']:6]]);
 		echo $this->render('index', [
 			'users'=>$model->getModels(),
 			'pagination'=>$model->pagination,
