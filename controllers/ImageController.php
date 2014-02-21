@@ -56,7 +56,7 @@ class ImageController extends Controller
 
                $user = User::find($model->parent_id);
                $user->avatar = $fn;
-               $user->save();
+               $user->save(false); // disabled validation
 
                $ok = true;
            }
