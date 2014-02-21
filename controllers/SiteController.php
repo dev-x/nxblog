@@ -101,6 +101,7 @@ class SiteController extends Controller
 	{
 
              $model = new User();
+			 $model->scenario = 'register';
 		if ($model->load($_POST)){
 		$model->password_hash = \yii\helpers\BaseSecurity::generatePasswordHash($model->password);
                 $model->auth_key = 'key';

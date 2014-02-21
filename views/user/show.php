@@ -4,10 +4,11 @@ use yii\helpers\HTML;
 $this->title = $modelUser->username;
 //$this->some_var;
 ?>
-	<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
+	
 <div class="newpost">
+<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 	<?php
-		if (!Yii::$app->user->isGuest && (Yii::$app->user->id === $modelUser->id)) {
+		if (!Yii::$app->user->isGuest && (Yii::$app->user->id === $modelUser->id) && ($modelUser->dozvil === '1')) {
 			?>
 			<?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => Yii::$app->homeUrl.'post/create']); ?>
 			<?= $form->field($modelNewPost, 'title')->textInput(); ?>
