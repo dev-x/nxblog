@@ -27,7 +27,8 @@ class UserController extends Controller
     public function actionIndex() {
         /*($users = User::find()->all();
         return $this->render('index', ['users' => $users]);*/
-		$query = User::find();
+		$active = 1;
+		$query = User::find()->where(array('dozvil' => $active));
 		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>isset($_GET['pageSize'])?$_GET['pageSize']:6]]);
 		echo $this->render('index', [
 			'users'=>$model->getModels(),
@@ -66,7 +67,21 @@ class UserController extends Controller
 
         return $this->render('profile', ['modelUser' => $user, 'modelImage' => $image]);
     }
-
+	
+	public function actionEdit($id)
+	{
+		if($model = User::find($id)){
+		    $model->scenario = 'profile';
+				if ($model->load($_POST)) {
+					if ($model->save()){
+						$this->redirect(array('user/profile', 'username'=>$model->username));
+					}
+				}else{
+					echo $this->render('edit', array('model' => $model));
+			}
+		}
+		
+	}
     public function actionPosts($username=null)
     {
         $user = User::findByUsername($username);

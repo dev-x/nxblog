@@ -5,17 +5,24 @@ use yii\helpers\Html;
 	
 </script>
 <div style="width: 920px; float: left;">
-	<ul class="nav nav-tabs">
-		<li class=""><?= HTML::a('Блоги', ['user/show', 'username' => $modelUser->username]); ?></li>
-		<li class=""><?= HTML::a('Фотографії', ['user/images', 'username' => $modelUser->username]); ?></li>
-		<li class=""><?= HTML::a('Профіль', ['user/profile', 'username' => $modelUser->username]); ?></li>
-	</ul></br></br>
+	<!--<ul style="padding:5px;" class="nav nav-tabs">
+		<li>dvdvdvdvdv</li>
+		<li>dvdvdvdvdv</li>
+		<li>dvdvdvdvdv</li>
+	</ul>-->
+    <?php
+		
+		
+		$class = ($this->context->getRoute() == 'user/show')?'btn btn-default':'btn btn-primary'; 
+		$class1 = ($this->context->getRoute() == 'user/images')?'btn btn-default':'btn btn-primary'; 
+		$class2 = ($this->context->getRoute() == 'user/profile')?'btn btn-default':'btn btn-primary'; 
+		?>
+		<?= HTML::a('Пости', array('user/show', 'username' => $modelUser->username),array('class'=>$class)); ?>
+		<?= HTML::a('Фотографії', array('user/images', 'username' => $modelUser->username),array('class'=>$class1));?>
+		<?= HTML::a('Профіль', array('user/profile', 'username' => $modelUser->username),array('class'=>$class2));?>
+		<!--<li class=""><?//= HTML::a('Фотографії', ['user/images', 'username' => $modelUser->username]); ?></li>
+		<li class=""><?//= HTML::a('Профіль', ['user/profile', 'username' => $modelUser->username]); ?></li>-->
+	
+	<?php //echo ?>
+	</br></br>
 </div>
-<!--
-<div class="form-actions" style="width: 920px; float: left;">
-	<button type="submit" class="btn btn-default"><?//= HTML::a('Блоги', ['user/show', 'username' => $modelUser->username]); ?></button>
-	<button type="submit" class="btn btn-default"><?//= HTML::a('Фотографії', ['user/images', 'username' => $modelUser->username]); ?>&nbsp;</button>
-	<button type="submit" class="btn btn-default"><?//= HTML::a('Профіль', ['user/profile', 'username' => $modelUser->username]); ?></button>
-</div></br></br>
-
--->

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     //$('#CommentNew').off('submit');
     $('#CommentNew').submit( function (e) {
         e.preventDefault();
@@ -21,4 +22,16 @@ $(document).ready(function(){
         return false;
     });
     //alert('asassasasasazsasassasa');sert
+	
+		
+		$('#disp').click(function(){
+				if($('#disp').text() == "Відкрити"){
+					$("#infoTwo").slideDown(500);
+					$('#disp').text("Закрити");
+				}else{
+					$("#infoTwo").slideUp(500);
+					$('#disp').text("Відкрити");
+				}
+			//
+		});
 });

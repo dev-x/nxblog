@@ -18,7 +18,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	{
 		return static::find($id);
 	}
-
+	
+	public function scenarios()
+    {
+        return [
+            'login' => ['username', 'password'],
+            'register' => ['username', 'email', 'password','mobil','first_name','last_name'],
+			'profile' => ['first_name','last_name','email','city','vnz','groupVnz','mobil','skype','myCredo','myInfo']
+        ];
+    }
+	
 	public static function findByUsername($username)
 	{
 		return static::find(array('username' => $username));
@@ -58,5 +67,26 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getPcount() {
         $command = static::getDb()->createCommand("select count(*) as kilk from post where user_id = {$this->id}")->queryAll();
         return $command[0]['kilk'];
+	}
+	
+	    public function rules()
+	{
+		return [
+                   
+			['username', 'required'],
+            ['username', 'unique', 'message' => 'This username address has already been taken.'],
+			['username', 'string', 'min' => 2, 'max' => 255],
+
+			['email', 'required'],
+			['email', 'email'],
+			['email', 'unique', 'message' => 'This email address has already been taken.', 'on' => 'signup'],
+			
+                        ['first_name','required'],
+                        ['last_name','required'],
+
+
+			['password', 'required'],
+			['password', 'string', 'min' => 6],
+		];
 	}
 }

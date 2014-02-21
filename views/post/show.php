@@ -34,8 +34,8 @@ use yii\helpers\Html;
 				?>
 			</p>
 		</div><br>
-			<?php if (Yii::$app->user->isGuest) 
-					echo Html::a ('Необхідно увійти', 'site/login'); else {  ?>
+			<?php if ((Yii::$app->user->isGuest) || ($modelUser->dozvil === '1')){ 
+					echo Html::a ('Необхідно увійти', 'site/login'); } else {  ?>
             <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create','enableClientValidation'=>false]); ?>
                  <input type="hidden" name="Comment[parent_id]" value="<?= $post->id; ?>">
             <?=  $form->field($modelNewComment, 'content')->textArea(['rows' => 6]) ?>

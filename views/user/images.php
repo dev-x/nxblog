@@ -19,8 +19,9 @@
 			photo.onclick = hidePhoto
 		} 
 </script>
-	<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
+	
 <div class="profil">
+<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 	<?php foreach ($modelUser->userimages as $image) : ?>
 		<?php $src =  Yii::$app->homeUrl."content/".$image->file_name."_m".$image->file_ext; ?>
 		<img id="kartinka" class="imge" src="<?= $src; ?>"></img>

@@ -2,8 +2,11 @@
 	use yii\helpers\Html;
 	use yii\widgets\LinkPager;
 ?>
+<script type="text/javascript">
+
+</script>
 <div class="page-header clearfix">
-<h1 style="text-align:center; ">Блоги</h1>
+<h1 style="text-align:center; ">Posts</h1>
 </div>
 <div class="row">
 <div class="col-sm-9">
@@ -35,40 +38,15 @@
 		</div>	
 		<br>
 	<?php endforeach; ?>
-<div style="float:left;">
-		<?php if (isset($pagination)){ echo LinkPager::widget(['pagination'=>$pagination]);} ?>
-</div>
+
 </div>
 <div class="col-sm-3">
 	jvndklvndlv<p>mvvdlkv lkd</p>
 	jvndklvndlv<p>mvvdlkv lkd</p>
 	jvndklvndlv<p>mvvdlkv lkd</p>
 	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
 </div>
+</div>
+<div style="float:left;">
+		<?php if (isset($pagination)){ echo LinkPager::widget(['pagination'=>$pagination]);} ?>
 </div>
