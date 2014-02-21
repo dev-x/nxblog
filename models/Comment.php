@@ -35,7 +35,7 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
 		return [
-			['content,parent_id', 'required'],
+			['content', 'required'],['parent_id', 'required']
 			// email has to be a valid email address
 //			['email', 'email'],
 			// verifyCode needs to be entered correctly

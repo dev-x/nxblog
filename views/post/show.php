@@ -36,13 +36,14 @@ use yii\helpers\Html;
 		</div><br>
 			<?php if (Yii::$app->user->isGuest) 
 					echo Html::a ('Необхідно увійти', 'site/login'); else {  ?>
-            <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create','enableClientValidation'=>false]); ?>
                  <input type="hidden" name="Comment[parent_id]" value="<?= $post->id; ?>">
             <?=  $form->field($modelNewComment, 'content')->textArea(['rows' => 6]) ?>
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
             <?php ActiveForm::end();}?>
 				</br>
 </div>
+<div id="commetslist">
 	<?php foreach ($comments as $comment) : ?>
 				<blockquote>
 					   <?php if (!empty($comment->author->avatar)) {
@@ -53,11 +54,12 @@ use yii\helpers\Html;
 						<text class='text-info' style='font-size:12px'> | ".$comment->created."</text></text>";?>
 						<text style='float:right'>
 							<?php
-								if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $comment->user_id)){
-										echo Html::a('Delete',array('comment/delete','id'=>$comment->id,'idP'=>$post->id));	
-								}
+							//	if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $comment->user_id)){
+							//			echo Html::a('Delete',array('comment/delete','id'=>$comment->id,'idP'=>$post->id));	
+							//	}
 							?>
 						</text>
 					<div class="btn-default"> <?php echo $comment->content."</br>"; ?></div>
 				</blockquote>
 	<?php endforeach; ?>		
+</div>

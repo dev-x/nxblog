@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Comment;
+use yii\helpers\Html;
 
 class CommentController extends Controller
 {
@@ -38,6 +39,19 @@ class CommentController extends Controller
                     if ($model->save()) {
 						//$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
                     }
+                    if(Yii::$app->request->isAjax) {
+                        $str='<blockquote>';
+                if (!empty($model->author->avatar)) {
+                $str=$str.'<div style="float:right"><img class="author-image" src='.Yii::$app->homeUrl.str_replace(".", "_is.", $model->author->avatar).'></div>';
+			   }
+	$str=$str."<text style='font-size:18px' class='text-primary'>".HTML::a(Yii::$app->user->identity->username, ['user/show', 'username' => Yii::$app->user->identity->username])."<text class='text-info' style='font-size:12px'> | ".$model->created."</text></text>"."<text style='float:right'>";
+	if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $model->user_id)){
+	$str=$str;//.Html::a('Delete',array('comment/delete','id'=>$model->id,'idP'=>$post->id));	
+	}
+						
+			$str=$str.'</text><div class="btn-default">'.$model->content.'</br>'.'</div></blockquote>';
+                                                echo $str;
+                                                } else 
                   $this->redirect(array('post/show', 'id'=>$model->parent_id));
                 }
     }
