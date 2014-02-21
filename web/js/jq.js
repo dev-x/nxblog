@@ -14,12 +14,13 @@ $(document).ready(function(){
             data: m_data,
             dataType: "html",
             success: function(result){
-                
-         $('#commetslist:last-child').after(result);
+                document.getElementById("CommentNew").reset();
+             //   alert($('#commetslist  blockquote:last-child').attr('id'));
+         $('#commetslist').append(result);
                                     }
                                 });
         //alert('111111111');
-        return false;
+        return false;a
     });
     //alert('asassasasasazsasassasa');sert
 	

@@ -34,8 +34,11 @@ use yii\helpers\Html;
 				?>
 			</p>
 		</div><br>
-			<?php if ((Yii::$app->user->isGuest) || ($modelUser->dozvil === '1')){ 
-					echo Html::a ('Необхідно увійти', 'site/login'); } else {  ?>
+			<?php if (Yii::$app->user->isGuest) { ?>
+					<?php echo Html::a ('Необхідно увійти', 'site/login'); } 
+                                        elseif (Yii::$app->user->identity->dozvil != 1) { ?>
+                <h3>В даний час, ви активовані</h3>
+                                        <?php } else {?>
             <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create','enableClientValidation'=>false]); ?>
                  <input type="hidden" name="Comment[parent_id]" value="<?= $post->id; ?>">
             <?=  $form->field($modelNewComment, 'content')->textArea(['rows' => 6]) ?>
@@ -45,7 +48,7 @@ use yii\helpers\Html;
 </div>
 <div id="commetslist">
 	<?php foreach ($comments as $comment) : ?>
-				<blockquote>
+				<blockquote id="<?= $comment->id ?>">
 					   <?php if (!empty($comment->author->avatar)) {
 						   echo '<div style="float:right"><img class="author-image" src="'.Yii::$app->homeUrl.str_replace('.', '_is.', $comment->author->avatar).'"></div>';
 					   } ?>
