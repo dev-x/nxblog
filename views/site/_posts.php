@@ -28,7 +28,13 @@
 						?></div>
 			</div>
 			<div class="conte"><?= mb_substr($post->content, 0, 300, "UTF-8")."..."; ?></div>
-			<ul class="info">
+            <div class="post_images" >
+                    <?php if ($post->images) foreach($post->images as $postImage): ?>
+                        <div><img src="<?php echo $postImage->getImageUrl('small'); ?>"></div>
+                    <?php endforeach; ?>
+            </div>
+
+            <ul class="info">
 				<li><img style="width:20px;" src="<?php echo $post->author->avatar; ?>"></img></li>
 				<li style="margin-left:-8px;"><?= HTML::a($post->author->username, ['user/show', 'username' => $post->author->username]) ?></li>
 				<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i><?php echo $post->post_time; ?></i></li>

@@ -52,4 +52,10 @@ class Image extends \yii\db\ActiveRecord
 		];
 	}
 
+    public function getImageUrl($format = NULL){
+        if (($format != NULL) && isset(\Yii::$app->params['thumbnails'][$this->parent_type][$format]))
+            $suffix = \Yii::$app->params['thumbnails'][$this->parent_type][$format]['suffix'];
+
+        return \Yii::$app->homeUrl.'content/'.$this->file_name.$suffix.$this->file_ext;
+    }
 }

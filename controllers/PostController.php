@@ -72,6 +72,7 @@ class PostController extends Controller
 	{
 		if($model = Post::find($id)){
 				if ($model->load($_POST)) {
+                    $model->status = 'publish';
 					if ($model->save()){
 						Yii::$app->session->setFlash('PostEdit');
 						$this->redirect(array('post/show', 'id'=>$model->id));
@@ -87,8 +88,7 @@ class PostController extends Controller
 		
                 $modelNewPost = new Post;
                 if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
-                    $modelNewPost->user_id = Yii::$app->user->id;
-					$modelNewPost->post_time = date("Y-m-d H:i:s");
+                    $modelNewPost->status = 'publish';
                   if ($modelNewPost->save()) {
                         $this->redirect(array('user/show', 'username'=>$modelNewPost->author->username));
 //                        $this->redirect(array('user/show', 'username'=>Yii::$app->user->username));

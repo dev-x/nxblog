@@ -115,4 +115,21 @@ class SiteController extends Controller
 			'model' => $model,
 		]);
         }
+
+    public function actionAddvk()
+    {
+        $code = YII::$app->request->get('code', 0);
+        if ($code){
+            $url = "https://oauth.vk.com/access_token?client_id=4190651&client_secret=YgonjBxzqn84vuAGbCnS&code={$code}&redirect_uri=".\Yii::$app->getUrlManager()->createAbsoluteUrl('site/addvk');
+            $content = file_get_contents($url);
+            $data = json_decode($content);
+            if ($data->access_token) {
+                $user = User::find(\Yii::$app->user->id);
+                $user->vk_id = $data->user_id;
+                $user->save(false); // disabled validation
+
+            }
+        }
+        $this->redirect(array('user/show', 'username' => Yii::$app->user->identity->username));
+    }
 }

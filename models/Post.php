@@ -30,6 +30,8 @@ class Post extends \yii\db\ActiveRecord
 
         if ($this->isNewRecord)
         {
+            $this->user_id = Yii::$app->user->id;
+            $this->post_time = date("Y-m-d H:i:s");
 //            $this->created = new Expression('NOW()');
 //            $command = static::getDb()->createCommand("select max(id) as id from posts")->queryAll();
 //            $this->id = $command[0]['id'] + 1;
@@ -46,7 +48,7 @@ class Post extends \yii\db\ActiveRecord
 
     public function getImages()
     {
-        return $this->hasMany(Comment::className(), ['parent_id' => 'id'])->where("parent_type = 'post'");
+        return $this->hasMany(Image::className(), ['parent_id' => 'id'])->where("parent_type = 'post'");
     }
 
     public function getAuthor()

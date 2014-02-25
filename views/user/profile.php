@@ -23,7 +23,7 @@
 	}
 </style>
 <div class="profil">
-<?php echo $this->render('_menu', array('modelUser' => $modelUser,$qwe =>'active')); ?>
+<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 
 	<div id="osnovna">
 		<div class="page-header clearfix">
@@ -31,7 +31,13 @@
 			<div style="width:5%;float:left;" class="col-sm-1">
 				<?php
 					if (Yii::$app->user->id === $modelUser->id){
-						echo HTML::a('Update ',array('edit','id'=>$modelUser->id));}
+						echo HTML::a('Update ',array('edit','id'=>$modelUser->id));
+                        //HTML::url('site/addvk')
+                        //
+                        //\Yii::$app->getUrlManager()->createUrl();
+                        echo HTML::a('Add VK',
+                            'http://oauth.vk.com/authorize?client_id=4190651&redirect_uri='.\Yii::$app->getUrlManager()->createAbsoluteUrl('site/addvk').'&scope=offline&display=page&response_type=code');
+                    }
 					?>
 			</div>
 		</div>

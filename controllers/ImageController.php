@@ -3,10 +3,13 @@
 namespace app\controllers;
 
 use Yii;
+
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use app\models\Image;
 use app\models\User;
+use app\models\Post;
 
 class ImageController extends Controller
 {
@@ -34,29 +37,42 @@ class ImageController extends Controller
             //UploadedFile::getInstance();
 //        print_r($_POST);
         $model->load($_POST);
+        if ($model->parent_type == 'post' && ($model->parent_id == 0)) {
+            $post = new Post();
+            if ($post->save(false))
+                $model->parent_id = $post->id;
+        }
         $error = '1';
         $f = UploadedFile::getInstance($model, 'file_name');
         if ($f) {
-           $error = '2';
-           $model->file_name = uniqid();
-		   $model->file_ext = strtolower(strrchr($f->name, '.'));
+            $error = '2';
+            $model->file_name = uniqid();
+            $model->file_ext = strtolower(strrchr($f->name, '.'));
 
 		   //Yii::app()->basePath
      		//$l = strrpos($f->name, '.');
 			
-           $fn = 'content/'.$model->file_name.$model->file_ext;
-           if ($f->saveAs($fn)) {
-               $file_info = [];
+            $fn = 'content/'.$model->file_name.$model->file_ext;
+            if ($f->saveAs($fn)) {
+                $file_info = [];
               
-               \app\lib\Image::resize($fn, Yii::$app->params['thumbnails'][$model->parent_type], $file_info);
+                \app\lib\Image::resize($fn, Yii::$app->params['thumbnails'][$model->parent_type], $file_info);
 
-               $error = '3';
-               $model->save();
-               $res = '{"status": "ok", "img": "content/'.$model->file_name."_ib".$model->file_ext.'"}';
-
-               $user = User::find($model->parent_id);
-               $user->avatar = $fn;
-               $user->save(false); // disabled validation
+                $error = '3';
+                $model->save();
+                if ($model->parent_type == 'post')
+                    $image_url = $model->getImageUrl('small');
+                if ($model->parent_type == 'user') {
+                    $image_url = $model->getImageUrl('bigicon');
+                    $user = User::find($model->parent_id);
+                    $user->avatar = $fn;
+                    $user->save(false); // disabled validation
+                }
+                $del_url = \Yii\helpers\Html::url(['image/delete', 'id' => $model->id]);
+                $res['status'] = 'ok';
+                $res['id'] = $model->id;
+                $res['img'] = $image_url;
+                $res['type'] = $model->parent_type;
 
                $ok = true;
            }
@@ -64,10 +80,10 @@ class ImageController extends Controller
 
         if (Yii::$app->request->isAjax) {
             if ($ok) {
-                echo $res;
+                echo json_encode($res);
             } else {
-                $res = '{"status": "error", "code": "'.$error.'"}';
-                echo $res;
+                $res = ['status' => 'error', 'code' => $error];
+                echo json_encode($res);
             }
         } else {
             $this->redirect(array('user/show', 'username' => Yii::$app->user->identity->username));
@@ -76,4 +92,12 @@ class ImageController extends Controller
 
     }
 
+    public function actionDelete($id)
+    {
+        $image = Image::find($id);
+        $res = '{"status": "ok", "id": "'.$image->id.'"}';
+        if (Yii::$app->user->id == $image->user_id)
+            $image->delete();
+        echo $res;
+    }
 }

@@ -45,11 +45,16 @@ class UserController extends Controller
         $image = new Image();
 
         //$images = $user->getUserImages();
-        $modelNewPost = new Post();
+        $post = null;
+        if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $user->id) && ($user->dozvil == 1)) {
+            $post = Post::find(array('user_id' => $user->id, 'status' => 'draft'));
+        }
+        if (!$post)
+            $post = new Post();
 		
 		
 
-        return $this->render('show', ['modelUser' => $user, 'modelImage' => $image, 'modelNewPost' => $modelNewPost]);
+        return $this->render('show', ['modelUser' => $user, 'modelImage' => $image, 'modelNewPost' => $post]);
     }
 
     public function actionImages($username=null)
