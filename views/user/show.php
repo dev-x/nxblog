@@ -9,13 +9,14 @@ $this->title = $modelUser->username;
 <?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 	<?php
 		if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $modelUser->id) && ($modelUser->dozvil == 1)) {
+            $edit_action = Html::url('post/edit');
             if ($modelNewPost->id)
                 $action =  Html::url(['post/edit', 'id' => $modelNewPost->id]);
             else
                 $action =  Html::url('post/create');
 			?>
 
-			<?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action]); ?>
+			<?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action]]); ?>
 			<?= $form->field($modelNewPost, 'title')->textInput(); ?>
 			<?= $form->field($modelNewPost, 'content')->textArea(['rows' => 6]); ?>
 			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>

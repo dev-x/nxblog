@@ -1,27 +1,7 @@
 $(document).ready(function(){
 
     //$('#CommentNew').off('submit');
-    $('#CommentNew').submit( function (e) {
-        e.preventDefault();
-        
-        var m_method=$(this).attr('method');
-        var m_action=$(this).attr('action');
-        var m_data=$(this).serialize();
-        
-        $.ajax({
-            type: m_method,
-            url: m_action,
-            data: m_data,
-            dataType: "html",
-            success: function(result){
-                document.getElementById("CommentNew").reset();
-             //   alert($('#commetslist  blockquote:last-child').attr('id'));
-         $('#commetslist').append(result);
-                                    }
-                                });
-        //alert('111111111');
-        return false;a
-    });
+    //$('#CommentNew').submit( );
     //alert('asassasasasazsasassasa');sert
 	
 		
@@ -36,6 +16,34 @@ $(document).ready(function(){
 			//
 		});
 });
+
+function submitComment($form) {
+    //e.preventDefault();
+
+    //var m_method=$(this).attr('method');
+    //var m_action=$(this).attr('action');
+    //var m_data=$(this).serialize();
+    var m_method=$form.attr('method');
+    var m_action=$form.attr('action');
+    var m_data=$form.serialize();
+
+    $.ajax({
+        type: m_method,
+        url: m_action,
+        data: m_data,
+        dataType: "html",
+        success: function(response){
+            document.getElementById("CommentNew").reset();
+            //   alert($('#commetslist  blockquote:last-child').attr('id'));
+            $('#commetslist').append(response);
+            return false;
+        },
+        error: function(response) {
+            return true;
+        }
+    });
+    return false;
+}
 
 (function() {
 
@@ -67,7 +75,7 @@ $(document).ready(function(){
                             if (respObj.type == 'user')
                                 afterLoadImageAvatar(respObj.img);
                             if (respObj.type == 'post')
-                                afterLoadImagePost(respObj.img, respObj.id);
+                                afterLoadImagePost(respObj.img, respObj.id, respObj.parent_id);
                         } else {
                             console.log('Error: '+respObj.code)
                         }
@@ -113,10 +121,10 @@ $(document).ready(function(){
         forimage.innerHTML = '<img src="'+url+'" />';
     }
 
-    function afterLoadImagePost(url, id) {
+    function afterLoadImagePost(url, id, post_id) {
         console.log(url, id);
         $('#post_images').append('<div id="divimage'+id+'"><img src="'+url+'"><span class="delete_button" onClick="deleteImage('+id+');"><span class="delete"></span></span></div>');
-
+        $('#PostNew').attr('action', $('#PostNew').data('edit')+'?id='+post_id);
     }
 
 

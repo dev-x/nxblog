@@ -39,7 +39,7 @@ use yii\helpers\Html;
                                         elseif (Yii::$app->user->identity->dozvil != 1) { ?>
                 <h3>В даний час, ви активовані</h3>
                                         <?php } else {?>
-            <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create','enableClientValidation'=>false]); ?>
+            <?php $form = ActiveForm::begin(['id' => 'CommentNew', 'action' => Yii::$app->homeUrl.'comment/create', 'beforeSubmit' => new \yii\web\JsExpression('submitComment') /*,'enableClientValidation'=>false*/]); ?>
                  <input type="hidden" name="Comment[parent_id]" value="<?= $post->id; ?>">
             <?=  $form->field($modelNewComment, 'content')->textArea(['rows' => 6]) ?>
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>

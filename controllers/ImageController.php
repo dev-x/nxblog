@@ -71,6 +71,7 @@ class ImageController extends Controller
                 $del_url = \Yii\helpers\Html::url(['image/delete', 'id' => $model->id]);
                 $res['status'] = 'ok';
                 $res['id'] = $model->id;
+                $res['parent_id'] = $model->parent_id;
                 $res['img'] = $image_url;
                 $res['type'] = $model->parent_type;
 
