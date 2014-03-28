@@ -11,7 +11,7 @@ use yii\web\Controller;
 use app\models\Post;
 use app\models\Comment;
 use app\models\User;
-
+use yii\helpers\Html;
 
 class PostController extends Controller
 {
@@ -89,11 +89,44 @@ class PostController extends Controller
                 $modelNewPost = new Post;
                 if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
                     $modelNewPost->status = 'publish';
-                  if ($modelNewPost->save()) {
-                        $this->redirect(array('user/show', 'username'=>$modelNewPost->author->username));
-//                        $this->redirect(array('user/show', 'username'=>Yii::$app->user->username));
+                  if ($modelNewPost->save()) {}
+                        
+                  if(Yii::$app->request->isAjax) {
+                        
+                      
+      $str=	'<div id="createdpost" style="padding:10px;float:left" class="panel panel-default">
+			<div><h2 style="margin-left:10px;">'.Html::a($modelNewPost->title, array('post/show', 'id'=>$modelNewPost->id)).'</h2>
+						<div>';
+							if (Yii::$app->user->id === $modelNewPost->user_id){
+								$str=$str.Html::a('Update | ',array('post/edit','id'=>$modelNewPost->id));} 
+							if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $modelNewPost->user_id)){
+								$str=$str.Html::a('Delete',array('post/delete','id'=>$modelNewPost->id));} 
+						$str=$str.'</div>
+			</div>
+			<div class="conte">'.mb_substr($modelNewPost->content, 0, 300, "UTF-8")."...".'</div>
+            <div class="post_images" >';
+                     if ($modelNewPost->images) foreach($modelNewPost->images as $postImage): 
+                       $str=$str.'<div><img src="'.$postImage->getImageUrl('small').'"></div>';
+                     endforeach;
+            $str=$str.'</div>
+
+            <ul class="info">
+				<li><img style="width:20px;" src="'.$modelNewPost->author->avatar.'"></img></li>
+				<li style="margin-left:-8px;">'.HTML::a($modelNewPost->author->username, ['user/show', 'username' => $modelNewPost->author->username]).'</li>
+				<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i>'.$modelNewPost->post_time.'</i></li>
+				<li style="float:right;"><span class="glyphicon glyphicon-list-alt"></span><b>Коментарів - </b>'.$modelNewPost->ccount.'</li>
+			</ul>
+			<button type="submit" class="btn btn-default pull-right">'.Html::a("Дочитати", array('post/show', 'id'=>$modelNewPost->id)).'</button>
+		</div>	
+		<br>';
+                      
+                      
+                                                echo $str;
+                                                } else 
+                  $this->redirect(array('post/show', 'id'=>$modelNewPost->id));
+                
                     };
                 }
-        }
+        
 
 }

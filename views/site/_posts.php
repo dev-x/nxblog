@@ -10,11 +10,13 @@
 </div>
 <div class="row">
 <div class="col-sm-9">
+    
 	<?php if(Yii::$app->session->hasFlash('PostDeleted')): ?>
 		<div class="breadcrumb">
 			<p style="font-size:18px;" class="active">Видалено</p>
 		</div>
 	<?php endif; ?>
+    <div id="postslist">
 	<?php foreach ($data as $post) : ?>
 		<div style="padding:10px;float:left;" class="panel panel-default">
 			<div><h2 style="margin-left:10px;"><?php echo Html::a($post->title, array('post/show', 'id'=>$post->id)); ?></h2>
@@ -44,7 +46,7 @@
 		</div>	
 		<br>
 	<?php endforeach; ?>
-
+    </div>
 </div>
 <div class="col-sm-3">
 	jvndklvndlv<p>mvvdlkv lkd</p>
