@@ -94,7 +94,7 @@ class PostController extends Controller
                   if(Yii::$app->request->isAjax) {
                         
                       
-      $str=	'<div id="createdcpost" style="padding:10px;float:left" class="panel panel-default">
+      $str=	'<div id="createdpost" style="padding:10px;float:left" class="panel panel-default">
 			<div><h2 style="margin-left:10px;">'.Html::a($modelNewPost->title, array('post/show', 'id'=>$modelNewPost->id)).'</h2>
 						<div>';
 							if (Yii::$app->user->id === $modelNewPost->user_id){

@@ -30,7 +30,7 @@ function submitPost($form) {
             document.getElementById("PostNew").reset();
             //   alert($('#commetslist  blockquote:last-child').attr('id'));
             $('#postslist').prepend(response);
-            $('#createdcpost').slideDown().removeAttr('id');
+            $('#createdpost').slideDown().removeAttr('id');
             return false;
         },
         error: function(response) {
