@@ -40,7 +40,7 @@ class CommentController extends Controller
 						//$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
                     }
                     if(Yii::$app->request->isAjax) {
-                        $str='<blockquote id="'.$model->id.'">';
+                        $str='<blockquote id="createdcomment">';
                 if (!empty($model->author->avatar)) {
                 $str=$str.'<div style="float:right"><img class="author-image" src='.Yii::$app->homeUrl.str_replace(".", "_is.", $model->author->avatar).'></div>';
 			   }

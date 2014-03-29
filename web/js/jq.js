@@ -16,6 +16,30 @@ $(document).ready(function(){
 			//
 		});
 });
+function submitPost($form) {
+    var m_method=$form.attr('method');
+    var m_action=$form.attr('action');
+    var m_data=$form.serialize();
+
+    $.ajax({
+        type: m_method,
+        url: m_action,
+        data: m_data,
+        dataType: "html",
+        success: function(response){
+            document.getElementById("PostNew").reset();
+            //   alert($('#commetslist  blockquote:last-child').attr('id'));
+            $('#postslist').prepend(response);
+            $('#createdpost').slideDown().removeAttr('id');
+            return false;
+        },
+        error: function(response) {
+            return false;
+        }
+    });
+    return false;
+}
+    
 
 function submitComment($form) {
     //e.preventDefault();
@@ -36,10 +60,11 @@ function submitComment($form) {
             document.getElementById("CommentNew").reset();
             //   alert($('#commetslist  blockquote:last-child').attr('id'));
             $('#commetslist').append(response);
+            $('#createdcomment').slideDown().removeAttr('id');
             return false;
         },
         error: function(response) {
-            return true;
+            return false;
         }
     });
     return false;

@@ -158,3 +158,9 @@ form.upload_image {
 #post_images span.delete_button:hover span.delete {
     opacity: 0.8;
 }
+#createdpost{
+    display: none;
+}
+#createdcomment{
+    display: none;
+}

@@ -16,7 +16,7 @@ $this->title = $modelUser->username;
                 $action =  Html::url('post/create');
 			?>
 
-			<?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action]]); ?>
+			<?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action],'beforeSubmit' => new \yii\web\JsExpression('submitPost')]); ?>
 			<?= $form->field($modelNewPost, 'title')->textInput(); ?>
 			<?= $form->field($modelNewPost, 'content')->textArea(['rows' => 6]); ?>
 			<?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
