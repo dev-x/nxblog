@@ -50,8 +50,8 @@ app\assets\AppAsset::register($this);
 		]);
 		NavBar::end();
 	?>
-
-	<div class="container">
+<div style="min-height: 109px; margin-top:-30px; width:100%; background-color: #000044; color: #aaaacc;" class="page-header clearfix"></div>
+	<div style="margin-top:-30px;" class="container">
 		<?=Breadcrumbs::widget([
 			'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 		]); ?>

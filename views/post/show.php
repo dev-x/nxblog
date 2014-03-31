@@ -15,7 +15,15 @@ use yii\helpers\Html;
     }
       #galleria{height:320px;}
 </style>
-<div style="margin-left:-200%;margin-right:-200%;margin-top:-30px;min-height: 109px; background-color: #000044; color: #aaaacc;" class="page-header clearfix"></div>
+<script type="text/template" id="template-comment-element">
+<blockquote id="createdcomment">
+	<div style="float:right"><img class="author-image" src='<%= avatarurl %>'></div>
+	<text style='font-size:18px' class='text-primary'><a hfer='<%= userurl %>'><%= username %></a>
+				<text class='text-info' style='font-size:12px'> | <%= datetime %></text></text>
+				<text style='float:right'></text>
+				<div class="btn-default"><%= content %></br></div></blockquote>
+</script>
+				
 <div style="margin-top:-50px;background-color:#fefeff;" class="row wrap">
 <i style="float:right;"><?php echo $post->post_time; ?></i><span style="float:right;" class="glyphicon glyphicon-time"></span>
 		<h3 style="text-align:center;font-size:40px; color: black;"><font><?php echo $post->title; ?></font></h3>

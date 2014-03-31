@@ -10,18 +10,18 @@ $this->title = $modelUser->username;
     }
 </style>
 <?php
-if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }
+if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
 if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
 if ($a > 0) : 
-?>
-	<div class="col-sm-3">
-			<p style='font-size:25px' class='text-primary'><?= $userX->first_name." ".$userX->last_name ?></p>
+?><div class="col-sm-3">
+	
+			<p style='font-size:19px' class='text-primary'><?= $userX->first_name." ".$userX->last_name ?></p>
 			<div id="forimage">
 			<?php  $stat = Yii::$app->user->identity->stat; if($stat == "Жіноча"){ $MG = "_G"; }else{ $MG = "_M";}?>
 				<?php if($userX->avatar == null){ ?>
-					<img style="border-radius: 4px;width:250px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif">
+					<img style="border-radius: 4px; width:220px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif">
 				<?php }else { ?>
-					<img style="border-radius: 4px;width:250px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $userX->avatar); ?>">
+					<img style="border-radius: 4px; width:220px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $userX->avatar); ?>">
 				<?php }?>
 			</div>
 			<?php if (!Yii::$app->user->isGuest && ($userX->id == Yii::$app->user->id) && ($a == 1)) : ?>
@@ -32,18 +32,18 @@ if ($a > 0) :
 					?>
 			<!--<button id="upload_button">Upload Image</button>-->
 			<?php endif; ?>
-				<h4><i class="glyphicon glyphicon-calendar"><b>День народження:</b></i><?php echo $userX->birthday; ?></h4>
-			    <h4><i class="glyphicon glyphicon-home"><b>Вуз:</b></i><?php echo $userX->vnz; ?></h4>
-			    <h4><i class="glyphicon glyphicon-home"><b>Група:</b></i><?php echo $userX->group_id; ?></h4>
+				<h5><i class="glyphicon glyphicon-calendar"><b>День народження:</b></i><?php echo $userX->birthday; ?></h5>
+			    <h5><i class="glyphicon glyphicon-home"><b>Вуз:</b></i><?php echo $userX->vnz; ?></h5>
+			    <h5><i class="glyphicon glyphicon-home"><b>Група:</b></i><?php echo $userX->group_id; ?></h5>
 		</div>
 <?php endif; ?>
 <?php if(($this->context->getRoute() == "post/index") || (strpos($this->context->getRoute(),'post') === 0)) : ?>
 	
 		<div class="col-xs-3">
-			<h3>Найбільш обговорювані</h3>
+			<h4>Найбільш обговорювані</h4>
 			<?php foreach ($postSidebar as $post) : ?>
 				<div class="panel panel-default">
-					<div class="panel-heading"><p style="font-size:25px;"><?php echo $post->title."<br>"; ?></p></div>
+					<div class="panel-heading"><p style="font-size:20px;"><?php echo $post->title."<br>"; ?></p></div>
 					<div class="panel-body">
 							<?php if ($post->images) foreach($post->images as $postImage): ?>
 							<?php //echo $postImage->getImageUrl('small'); ?>

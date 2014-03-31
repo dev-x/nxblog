@@ -16,6 +16,19 @@
 			//
 		});
 });
+var CommentModel = Backbone.Model.extend({});
+
+var CommentView = Backbone.View.extend({
+   // initialize:function(){
+   //     this.render();
+   // },
+    render: function(){
+	alert(this.model.toJSON()Order);
+        this.$el.html( _.template($('#template-comment-element').html(), this.model.toJSON()));
+    }
+});
+
+
 function submitPost($form) {
     var m_method=$form.attr('method');
     var m_action=$form.attr('action');
@@ -39,7 +52,20 @@ function submitPost($form) {
     });
     return false;
 }
-    
+/*Backbone.ajax({
+    dataType: "jsonp",
+    url: "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=25",
+    data: "",
+    success: function(val){ val
+        var Model = Backbone.Model.extend({});
+        var Collection = Backbone.Collection.extend({
+            model:Model
+        });
+        collection = new Collection(val);
+        console.log(collection);
+    }
+});
+  */  
 
 function submitComment($form) {
     //e.preventDefault();
@@ -55,11 +81,16 @@ function submitComment($form) {
         type: m_method,
         url: m_action,
         data: m_data,
-        dataType: "html",
+        dataType: "json",
         success: function(response){
             document.getElementById("CommentNew").reset();
             //   alert($('#commetslist  blockquote:last-child').attr('id'));
-            $('#commetslist').append(response);
+			var commentModel = new CommentModel(response.data);
+			var commentView = new CommentView({model: commentModel});
+			commentView.render();
+			//var template = _.template($('#template-comment-element').html(), response.data);
+            //$('#commetslist').append(template);
+			$('#commetslist').append(commentView.el);
             $('#createdcomment').slideDown().removeAttr('id');
             return false;
         },

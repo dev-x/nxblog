@@ -3,9 +3,7 @@
 $this->title = 'Блоги';
 ?>
 
-	<div style="margin-left:-200%;margin-right:-200%;margin-top:-30px;min-height: 109px; background-color: #000044; color: #aaaacc;" class="page-header clearfix">
-		
-	</div>
+	
 <div style="margin-top:-50px;background-color:#fefeff; box-shadow:
    0 1px 3px rgba(0, 0, 0, .3),
    -13px 0 10px -13px rgba(0, 0, 0, .8),

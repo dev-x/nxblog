@@ -6,9 +6,6 @@
 		display:none;
 	}
 </style>
-<div style="margin-left:-200%;margin-right:-200%;margin-top:-30px;min-height: 109px; background-color: #000044; color: #aaaacc;" class="page-header clearfix">
-			
-</div>
 <div style="margin-top:-50px;background-color:#fefeff;" class="row wrap">
 <h1 style="text-align:center;font-size:50px; color: black;"><font>
 						<?php if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $modelUser->id)){
