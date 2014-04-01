@@ -27,22 +27,23 @@ app\assets\AppAsset::register($this);
 				['/users/'.Yii::$app->user->identity->username.''],
 			'options' => [
 				'class' => 'navbar-inverse navbar-fixed-top',
+				'style' => 'background-color: #111166;',
 			],
         ]);
 		echo Nav::widget([
-			'options' => ['class' => 'navbar-nav pull-right'],
+			'options' => ['class' => 'navbar-nav pull-right', 'style' => 'background-color: #111166;'],
 			'items' => [
 			  /*Yii::$app->user->isGuest ?
 				['label' => 'Home', 'url' => ['/site/login']]:
 				['label' => 'Home', 'url' => ['/users/'.Yii::$app->user->identity->username]],*/
-				['label' => 'Posts', 'url' => ['/post/index']],
-				['label' => 'About', 'url' => ['/site/about']],
-				['label' => 'Contact', 'url' => ['/site/contact']],
-				['label' => 'Users', 'url' => ['/user/index']],
-				['label' => 'Signup', 'url' => ['/site/signup']] ,
+				['label' => 'Головна', 'url' => ['/post/index']],
+				['label' => 'Про нас', 'url' => ['/site/about']],
+				//['label' => 'Зворотній звязок', 'url' => ['/site/contact']],
+				['label' => 'Користувачі', 'url' => ['/user/index']],
+				['label' => 'Реєстрація', 'url' => ['/site/signup']] ,
 				Yii::$app->user->isGuest ?
-					['label' => 'Login', 'url' => ['/site/login']] :
-					['label' => 'Logout (' . Yii::$app->user->identity->username .')' ,
+					['label' => 'Вхід', 'url' => ['/site/login']] :
+					['label' => 'Вихід (' . Yii::$app->user->identity->username .')' ,
 						'url' => ['/site/logout'],
 						'linkOptions' => ['data-method' => 'post']],
 			],
@@ -57,7 +58,7 @@ app\assets\AppAsset::register($this);
 		<?= $content ?>
 	</div>
 
-	<footer class="footer">
+	<footer style="background-color: #000044;color: #aaaacc;" class="footer">
 		<div class="container">
 			<p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 			<p class="pull-right"><?= Yii::powered() ?></p>
