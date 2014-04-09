@@ -23,8 +23,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'login' => ['username', 'password'],
-            'register' => ['username', 'email', 'password','mobil','first_name','last_name'],
-			'profile' => ['first_name','last_name','email','city','vnz','groupVnz','mobil','skype','myCredo','myInfo']
+            'register' => ['username', 'email', 'password','mobil','first_name','last_name','group_id','stat'],
+			'profile' => ['first_name','last_name','email','city','vnz','groupVnz','birthday','mobil','skype','myCredo','myInfo']
         ];
     }
 	
@@ -78,16 +78,17 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	{
 		return [
                    
-			['username', 'required'],
+			[['username', 'email','group_id'], 'required'],
             ['username', 'unique', 'message' => 'This username address has already been taken.'],
 			['username', 'string', 'min' => 2, 'max' => 255],
 
-			['email', 'required'],
+			
 			['email', 'email'],
 			['email', 'unique', 'message' => 'This email address has already been taken.', 'on' => 'signup'],
 			
                         ['first_name','required'],
                         ['last_name','required'],
+					
 
 
 			['password', 'required'],

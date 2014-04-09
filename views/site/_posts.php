@@ -2,59 +2,43 @@
 	use yii\helpers\Html;
 	use yii\widgets\LinkPager;
 ?>
-<script type="text/javascript">
 
-</script>
-<div class="page-header clearfix">
-<h1 style="text-align:center; ">Posts</h1>
-</div>
-<div class="row">
-<div class="col-sm-9">
-    
-	<?php if(Yii::$app->session->hasFlash('PostDeleted')): ?>
-		<div class="breadcrumb">
-			<p style="font-size:18px;" class="active">Видалено</p>
-		</div>
-	<?php endif; ?>
-    <div id="postslist">
-	<?php foreach ($data as $post) : ?>
-		<div style="padding:10px;float:left;" class="panel panel-default">
-			<div><h2 style="margin-left:10px;"><?php echo Html::a($post->title, array('post/show', 'id'=>$post->id)); ?></h2>
-						<div><?php
-							if (Yii::$app->user->id === $post->user_id){
-								echo Html::a('Update | ',array('post/edit','id'=>$post->id));} 
-						?>
-						<?php
-							if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $post->user_id)){
-								echo Html::a('Delete',array('post/delete','id'=>$post->id));} 
-						?></div>
+		<?php if(Yii::$app->session->hasFlash('PostDeleted')): ?>
+			<div class="breadcrumb">
+				<p style="font-size:18px;" class="active">Видалено</p>
 			</div>
-			<div class="conte"><?= mb_substr($post->content, 0, 300, "UTF-8")."..."; ?></div>
-            <div class="post_images" >
-                    <?php if ($post->images) foreach($post->images as $postImage): ?>
-                        <div><img src="<?php echo $postImage->getImageUrl('small'); ?>"></div>
-                    <?php endforeach; ?>
-            </div>
-
-            <ul class="info">
-				<li><img style="width:20px;" src="<?php echo $post->author->avatar; ?>"></img></li>
-				<li style="margin-left:-8px;"><?= HTML::a($post->author->username, ['user/show', 'username' => $post->author->username]) ?></li>
-				<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i><?php echo $post->post_time; ?></i></li>
-				<li style="float:right;"><span class="glyphicon glyphicon-list-alt"></span><b>Коментарів - </b><?php echo $post->ccount; ?></li>
-			</ul>
-			<button type="submit" class="btn btn-default pull-right"><?php  echo Html::a("Дочитати", array('post/show', 'id'=>$post->id));  ?></button>
-		</div>	
-		<br>
-	<?php endforeach; ?>
-    </div>
-</div>
-<div class="col-sm-3">
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-	jvndklvndlv<p>mvvdlkv lkd</p>
-</div>
-</div>
-<div style="float:left;">
+		<?php endif; ?>
+		<div id="postslist">
+			<?php foreach ($data as $post) : ?>
+			<div class="row">
+				<div class="col-xs-12">
+						<h2><?php echo Html::a($post->title, array('post/show', 'id'=>$post->id)); ?></h2>
+									<?php /*if (Yii::$app->user->id == $post->user_id){echo Html::a('Update | ',array('post/edit','id'=>$post->id));} */?>
+									<?php /*if ((Yii::$app->user->id == '1' ) || (Yii::$app->user->id === $post->user_id)){	echo Html::a('Delete',array('post/delete','id'=>$post->id));} */?>
+						<p><?= mb_substr($post->content, 0, 300, "UTF-8")."..."; ?></p>
+							<?php $stat = $post->author->stat; if($stat == "Жіноча"){	$MG = "_G"; }else{ $MG = "_M";}?>
+							<div class="col-xs-12">
+										<?php if ($post->images) foreach($post->images as $postImage): ?>
+										<?php //echo $postImage->getImageUrl('small'); ?>
+											<img style="border:5px double #ddd;float:left;margin-bottom:20px; margin-left:-10px; margin-right:10px; width:150px;" src="<?php echo $postImage->getImageUrl('medium'); ?>">
+										<?php endforeach; ?>
+							</div>
+							</br>
+							<ul class="list-inline">
+								<?php if($post->author->avatar == null){ ?>
+									<li><img style="width:40px;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif"></img></li>	
+									<?php }else { ?>
+									<li><img style="height:30px; width:25px;" src="<?php echo $post->author->avatar; ?>"></img></li>
+								<?php } ?>
+									<li style="margin-left:-8px;"><?= HTML::a($post->author->username, ['user/show', 'username' => $post->author->username]) ?></li>
+									<li><a href=""><i class="glyphicon glyphicon-comment"></i> <?php echo $post->ccount; ?> - Коментарів </a></li><li><a href=""> <i class="glyphicon glyphicon-share"></i> 14 Переглядів</a></li>
+							</ul>
+							<button type="submit" class="btn btn-default pull-right"><?php  echo Html::a("Дочитати", array('post/show', 'id'=>$post->id));  ?></button>
+				</div>	
+			</div>	
+				<hr>
+			<?php endforeach; ?>
+</div>			
+<div class="col-sm-9">
 		<?php if (isset($pagination)){ echo LinkPager::widget(['pagination'=>$pagination]);} ?>
 </div>

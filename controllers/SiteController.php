@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\ActiveDataProvider;
 use app\models\User;
+use app\models\Lists;
 
 class SiteController extends Controller
 {
@@ -97,9 +98,10 @@ class SiteController extends Controller
 	{
 		return $this->render('about');
 	}
+	
 	public function actionSignup()
 	{
-
+			$list = Lists::find()->all();
              $model = new User();
 			 $model->scenario = 'register';
 		if ($model->load($_POST)){
@@ -113,6 +115,7 @@ class SiteController extends Controller
 	}
 		return $this->render('signup', [
 			'model' => $model,
+			'list' => $list,
 		]);
         }
 

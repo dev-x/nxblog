@@ -28,7 +28,7 @@ class UserController extends Controller
         /*($users = User::find()->all();
         return $this->render('index', ['users' => $users]);*/
 		$active = 1;
-		$query = User::find()->where(array('dozvil' => $active));
+		$query = User::find()->where(array('active' => $active));
 		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>isset($_GET['pageSize'])?$_GET['pageSize']:6]]);
 		echo $this->render('index', [
 			'users'=>$model->getModels(),
@@ -46,7 +46,7 @@ class UserController extends Controller
 
         //$images = $user->getUserImages();
         $post = null;
-        if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $user->id) && ($user->dozvil == 1)) {
+        if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $user->id) && ($user->active == 1)) {
             $post = Post::find(array('user_id' => $user->id, 'status' => 'draft'));
         }
         if (!$post)
