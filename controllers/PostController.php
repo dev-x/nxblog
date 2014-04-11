@@ -41,8 +41,9 @@ class PostController extends Controller
 
                 $comments = $post->getComments()->all();
 	}
-
+$postSidebar = Post::find()->orderBy('post_time DESC')->limit(3)->all();
 		echo $this->render('show', array(
+				'postSidebar'=>$postSidebar,
 				'post' => $post,
 				'comments' => $comments,
 				'modelNewComment' => $modelNewComment
@@ -50,16 +51,26 @@ class PostController extends Controller
 	}
 	
 	public function actionIndex(){
-		$query = Post::find();
+		$query = Post::find()->orderBy('post_time DESC');
 		//$query->orderBy("title ASC");
 		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>  isset($_GET['pageSize'])?$_GET['pageSize']:5]]);
+		$postSidebar = Post::find()->orderBy('post_time DESC')->limit(3)->all();
 		echo $this->render('index', [
+			'postSidebar'=>$postSidebar,
 			'data'=>$model->getModels(),
 			'pagination'=>$model->pagination,
 			'count'=>$model->pagination->totalCount,
 		]);
 	}
 
+	public function actionPostSidebar(){
+		$models = Post::find()->published()->orderBy('create_time DESC')->limit(3)->all();		
+
+    	echo $this->render('views/user/_sidebar', [
+    		'models' => $models
+    	]);
+	}
+	
 	public function actionDelete($id)
 		{
 			$post = Post::find($id);
@@ -72,7 +83,8 @@ class PostController extends Controller
 	{
 		if($model = Post::find($id)){
 				if ($model->load($_POST)) {
-                    $model->status = 'publish';
+					if(isset($_POST['publish']))
+						$model->status = 'publish';
 					if ($model->save()){
 						Yii::$app->session->setFlash('PostEdit');
 						$this->redirect(array('post/show', 'id'=>$model->id));
@@ -87,44 +99,39 @@ class PostController extends Controller
         public function actionCreate(){
 		
                 $modelNewPost = new Post;
+				
                 if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
                     $modelNewPost->status = 'publish';
-                  if ($modelNewPost->save()) {}
-                        
-                  if(Yii::$app->request->isAjax) {
-                        
-                      
-      $str=	'<div id="createdpost" style="padding:10px;float:left" class="panel panel-default">
-			<div><h2 style="margin-left:10px;">'.Html::a($modelNewPost->title, array('post/show', 'id'=>$modelNewPost->id)).'</h2>
-						<div>';
-							if (Yii::$app->user->id === $modelNewPost->user_id){
-								$str=$str.Html::a('Update | ',array('post/edit','id'=>$modelNewPost->id));} 
-							if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $modelNewPost->user_id)){
-								$str=$str.Html::a('Delete',array('post/delete','id'=>$modelNewPost->id));} 
-						$str=$str.'</div>
-			</div>
-			<div class="conte">'.mb_substr($modelNewPost->content, 0, 300, "UTF-8")."...".'</div>
-            <div class="post_images" >';
-                     if ($modelNewPost->images) foreach($modelNewPost->images as $postImage): 
-                       $str=$str.'<div><img src="'.$postImage->getImageUrl('small').'"></div>';
-                     endforeach;
-            $str=$str.'</div>
-
-            <ul class="info">
-				<li><img style="width:20px;" src="'.$modelNewPost->author->avatar.'"></img></li>
-				<li style="margin-left:-8px;">'.HTML::a($modelNewPost->author->username, ['user/show', 'username' => $modelNewPost->author->username]).'</li>
-				<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i>'.$modelNewPost->post_time.'</i></li>
-				<li style="float:right;"><span class="glyphicon glyphicon-list-alt"></span><b>Коментарів - </b>'.$modelNewPost->ccount.'</li>
-			</ul>
-			<button type="submit" class="btn btn-default pull-right">'.Html::a("Дочитати", array('post/show', 'id'=>$modelNewPost->id)).'</button>
-		</div>	
-		<br>';
-                      
-                      
-                                                echo $str;
-                                                } else 
-                  $this->redirect(array('post/show', 'id'=>$modelNewPost->id));
-                
+					  if ($modelNewPost->save()) {}
+							
+					  if(Yii::$app->request->isAjax) {
+							  $str=	'<div id="createdpost" style="padding:10px;float:left" class="panel panel-default">
+									<div><h2 style="margin-left:10px;">'.Html::a($modelNewPost->title, array('post/show', 'id'=>$modelNewPost->id)).'</h2>
+												<div>';
+													if (Yii::$app->user->id === $modelNewPost->user_id){
+														$str=$str.Html::a('Update | ',array('post/edit','id'=>$modelNewPost->id));} 
+													if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $modelNewPost->user_id)){
+														$str=$str.Html::a('Delete',array('post/delete','id'=>$modelNewPost->id));} 
+															$str=$str.'</div>
+									</div>
+									<div class="conte">'.mb_substr($modelNewPost->content, 0, 300, "UTF-8")."...".'</div>
+									<div class="post_images" >';
+													 if ($modelNewPost->images) foreach($modelNewPost->images as $postImage): 
+														$str=$str.'<div><img src="'.$postImage->getImageUrl('small').'"></div>';
+													 endforeach;
+									$str=$str.'</div>
+									<ul class="info">
+										<li><img style="width:20px;" src="'.$modelNewPost->author->avatar.'"></img></li>
+										<li style="margin-left:-8px;">'.HTML::a($modelNewPost->author->username, ['user/show', 'username' => $modelNewPost->author->username]).'</li>
+										<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i>'.$modelNewPost->post_time.'</i></li>
+										<li style="float:right;"><span class="glyphicon glyphicon-list-alt"></span><b>Коментарів - </b>'.$modelNewPost->ccount.'</li>
+									</ul>
+									<button type="submit" class="btn btn-default pull-right">'.Html::a("Дочитати", array('post/show', 'id'=>$modelNewPost->id)).'</button>
+								</div>	
+								<br>';
+								echo $str;
+						} else 
+					  $this->redirect(array('post/show', 'id'=>$modelNewPost->id));
                     };
                 }
         
