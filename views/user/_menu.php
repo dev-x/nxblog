@@ -4,7 +4,7 @@ use yii\helpers\Html;
 <script>
 	
 </script>
-<div style="width: 920px; float: left;">
+<div class="col-sm-12">
 	<!--<ul style="padding:5px;" class="nav nav-tabs">
 		<li>dvdvdvdvdv</li>
 		<li>dvdvdvdvdv</li>
@@ -24,5 +24,5 @@ use yii\helpers\Html;
 		<li class=""><?//= HTML::a('Профіль', ['user/profile', 'username' => $modelUser->username]); ?></li>-->
 	
 	<?php //echo ?>
-	</br></br>
+	</br>
 </div>

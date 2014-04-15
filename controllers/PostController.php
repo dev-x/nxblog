@@ -41,8 +41,9 @@ class PostController extends Controller
 
                 $comments = $post->getComments()->all();
 	}
-
+	$postSidebar = Post::find()->orderBy('post_time DESC')->limit(3)->all();
 		echo $this->render('show', array(
+				'postSidebar'=>$postSidebar,
 				'post' => $post,
 				'comments' => $comments,
 				'modelNewComment' => $modelNewComment
@@ -50,10 +51,12 @@ class PostController extends Controller
 	}
 	
 	public function actionIndex(){
-		$query = Post::find();
+		$query = Post::find()->orderBy('post_time DESC');
 		//$query->orderBy("title ASC");
 		$model = new ActiveDataProvider(['query'=>$query,'pagination'=>['pageSize'=>  isset($_GET['pageSize'])?$_GET['pageSize']:5]]);
+		$postSidebar = Post::find()->orderBy('post_time DESC')->limit(3)->all();
 		echo $this->render('index', [
+			'postSidebar'=>$postSidebar,
 			'data'=>$model->getModels(),
 			'pagination'=>$model->pagination,
 			'count'=>$model->pagination->totalCount,
@@ -61,72 +64,70 @@ class PostController extends Controller
 	}
 
 	public function actionDelete($id)
-		{
-			$post = Post::find($id);
+	{
+		$post = Post::find($id);
+        if ( $post ) {
 				$post->delete();
-				Yii::$app->session->setFlash('PostDeleted');
-				$this->redirect($_SERVER['HTTP_REFERER']);
-		}
+            }    
+			Yii::$app->session->setFlash('PostDeleted');
+			$this->redirect($_SERVER['HTTP_REFERER']);
+	}
 	
 	public function actionEdit($id)
 	{
-		if($model = Post::find($id)){
-				if ($model->load($_POST)) {
-                    $model->status = 'publish';
-					if ($model->save()){
-						Yii::$app->session->setFlash('PostEdit');
-						$this->redirect(array('post/show', 'id'=>$model->id));
-					}
-				}else{
-					echo $this->render('edit', array('model' => $model));
-				}
-		}
-		
-	}
-	
-        public function actionCreate(){
-		
-                $modelNewPost = new Post;
-                if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
-                    $modelNewPost->status = 'publish';
-                  if ($modelNewPost->save()) {}
-                        
-                  if(Yii::$app->request->isAjax) {
-                        
-                      
-      $str=	'<div id="createdpost" style="padding:10px;float:left" class="panel panel-default">
-			<div><h2 style="margin-left:10px;">'.Html::a($modelNewPost->title, array('post/show', 'id'=>$modelNewPost->id)).'</h2>
-						<div>';
-							if (Yii::$app->user->id === $modelNewPost->user_id){
-								$str=$str.Html::a('Update | ',array('post/edit','id'=>$modelNewPost->id));} 
-							if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $modelNewPost->user_id)){
-								$str=$str.Html::a('Delete',array('post/delete','id'=>$modelNewPost->id));} 
-						$str=$str.'</div>
-			</div>
-			<div class="conte">'.mb_substr($modelNewPost->content, 0, 300, "UTF-8")."...".'</div>
-            <div class="post_images" >';
-                     if ($modelNewPost->images) foreach($modelNewPost->images as $postImage): 
-                       $str=$str.'<div><img src="'.$postImage->getImageUrl('small').'"></div>';
-                     endforeach;
-            $str=$str.'</div>
-
-            <ul class="info">
-				<li><img style="width:20px;" src="'.$modelNewPost->author->avatar.'"></img></li>
-				<li style="margin-left:-8px;">'.HTML::a($modelNewPost->author->username, ['user/show', 'username' => $modelNewPost->author->username]).'</li>
-				<li style="float:right;"><span class="glyphicon glyphicon-time"></span><i>'.$modelNewPost->post_time.'</i></li>
-				<li style="float:right;"><span class="glyphicon glyphicon-list-alt"></span><b>Коментарів - </b>'.$modelNewPost->ccount.'</li>
-			</ul>
-			<button type="submit" class="btn btn-default pull-right">'.Html::a("Дочитати", array('post/show', 'id'=>$modelNewPost->id)).'</button>
-		</div>	
-		<br>';
-                      
-                      
-                                                echo $str;
-                                                } else 
-                  $this->redirect(array('post/show', 'id'=>$modelNewPost->id));
-                
-                    };
+        $model = Post::find($id); 
+        if ($model->load($_POST) && !Yii::$app->user->isGuest) {
+            $model->status = 'publish';
+            if ($model->save()) {
+                if(Yii::$app->request->isAjax) {
+                    $res = $this->genResponseData($model);
                 }
-        
+                $res['status'] = 'ok';
+            } else $res['status'] = 'error';
+        } else $res['status'] = 'error';
+        if (Yii::$app->request->isAjax) {
+            echo json_encode($res);
+        } else {
+            Yii::$app->session->setFlash('PostEdit');
+            $this->redirect(array('post/show', 'id'=>$model->id));
+        }
+    }
 
+    public function actionCreate()
+    {
+        $modelNewPost = new Post;
+        if ($modelNewPost->load($_POST) && !Yii::$app->user->isGuest) {
+            $modelNewPost->status = 'publish';
+            if ($modelNewPost->save()) {
+                if(Yii::$app->request->isAjax) {
+                    $res = $this->genResponseData($modelNewPost);
+                }
+                $res['status'] = 'ok';
+            } else $res['status'] = 'error';
+        } else $res['status'] = 'error';
+        if (Yii::$app->request->isAjax) {
+            echo json_encode($res);
+        } else {
+            $this->redirect(array('post/show', 'id'=>$modelNewPost->id));
+        }
+    }
+    
+    private function genResponseData(&$post) {
+        $res['status'] = 'ok';
+                    $res['data']['titleUrl'] = HTML::url(['post/show', 'id' => $post->id]);
+                    $res['data']['autorUrl'] = HTML::url(['user/show', 'username' => $post->author->username]);
+                    $res['data']['autorName'] = $post->author->username;
+                    $res['data']['titlePost'] = $post->title;
+                    $res['data']['timePost'] = $post->post_time;
+                    $res['data']['comentCountPost'] = $post->ccount;
+                    $res['data']['contentPost'] = mb_substr($post->content, 0, 300, "UTF-8");
+                    if (!empty($post->author->avatar)) {
+							$res['data']['avatarurl'] = Yii::$app->homeUrl.str_replace(".", "_is.", $post->author->avatar);
+					}
+                    if ($post->images)
+                        foreach ($post->images as $postImage){
+                            $res['data_childs'][] = Array('src' => $postImage->getImageUrl('small')); 
+                        }
+        return $res;
+    }
 }
