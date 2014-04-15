@@ -30,9 +30,9 @@
 
 								<ul class="list-inline">
 									<?php if($post->author->avatar == null){ ?>
-										<li><img style="width:40px;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif"></img></li>	
+										<li><img style="width:40px;" src="<?= Yii::$app->homeUrl; ?>img/no_avatar.png"></li>
 										<?php }else { ?>
-										<li><img style="height:30px; width:25px;" src="<?php echo $post->author->avatar; ?>"></img></li>
+										<li><img style="height:30px; width:25px;" src="<?= Yii::$app->homeUrl; ?><?= $post->author->avatar; ?>"></li>
 									<?php } ?>
 										<li style="margin-left:-8px;"><?= HTML::a($post->author->username, ['user/show', 'username' => $post->author->username]) ?></li>
 										<li><a href=""><span class="glyphicon glyphicon-time"></span><i><?php echo $post->post_time ?></i></a></li>

@@ -1,7 +1,6 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-$this->title = $modelUser->username;
 ?>
 </div>
 <style>
@@ -10,9 +9,10 @@ $this->title = $modelUser->username;
     }
 </style>
 <?php
+$a = 0;
 if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
 if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
-if ($a > 0) : 
+if ($a > 0) :
 ?><div class="col-sm-3">
 	
 			<p style='font-size:19px' class='text-primary'><?= $userX->first_name." ".$userX->last_name ?></p>
