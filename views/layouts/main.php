@@ -27,6 +27,7 @@ app\assets\AppAsset::register($this);
 				['/users/'.Yii::$app->user->identity->username.''],
 			'options' => [
 				'class' => 'navbar-inverse navbar-fixed-top',
+				'style' => 'background-color:#000034;',
 			],
         ]);
 		echo Nav::widget([
@@ -49,7 +50,7 @@ app\assets\AppAsset::register($this);
 		]);
 		NavBar::end();
 	?>
-
+	<div style="min-height: 109px; margin-top:-30px; width:100%; background-color: #000044; color: #aaaacc;" class="page-header clearfix"></div>
 	<div class="container">
 		<?=Breadcrumbs::widget([
 			'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

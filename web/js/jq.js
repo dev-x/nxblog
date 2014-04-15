@@ -16,6 +16,42 @@ $(document).ready(function(){
 			//
 		});
 });
+
+var CommentModel = Backbone.Model.extend({});
+
+var CommentView = Backbone.View.extend({
+   // initialize:function(){
+   //     this.render();
+   // },
+    render: function(){
+        this.$el.html( _.template($('#template-post-element').html(), this.model.toJSON()));
+    }
+});
+
+var PostModel = Backbone.Model.extend({});
+
+var PostView = Backbone.View.extend({
+   // initialize:function(){
+   //     this.render();
+   // },
+    render: function(){
+        var s;
+        this.collection.each(function(image) {
+            console.log(image);
+            //var imageView = new ImageView({ model: person });
+            s += _.template($('#template-image-element').html(), image.toJSON());
+        });
+        this.model.set({images: s});
+        this.$el.html( _.template($('#template-post-element').html(), this.model.toJSON()));
+    }
+});
+
+var ImageModel = Backbone.Model.extend({});
+
+var ImagesCollection = Backbone.Collection.extend({
+//    model: ImageModel
+});
+
 function submitPost($form) {
     var m_method=$form.attr('method');
     var m_action=$form.attr('action');
@@ -25,12 +61,18 @@ function submitPost($form) {
         type: m_method,
         url: m_action,
         data: m_data,
-        dataType: "html",
+        dataType: "json",
         success: function(response){
             document.getElementById("PostNew").reset();
-            //   alert($('#commetslist  blockquote:last-child').attr('id'));
-            $('#postslist').prepend(response);
-            $('#createdpost').slideDown().removeAttr('id');
+            var postModel = new PostModel(response.data);
+                      
+           var imagesCollection = new ImagesCollection();
+           imagesCollection.add(response.data_childs);
+           
+           var postView = new PostView({model: postModel, collection: imagesCollection});
+           postView.render();
+           $('#postsl').prepend(postView.el);
+           $('#createdpost').slideDown().removeAttr('id');
             return false;
         },
         error: function(response) {
@@ -39,11 +81,9 @@ function submitPost($form) {
     });
     return false;
 }
-    
 
 function submitComment($form) {
     //e.preventDefault();
-
     //var m_method=$(this).attr('method');
     //var m_action=$(this).attr('action');
     //var m_data=$(this).serialize();
@@ -55,12 +95,16 @@ function submitComment($form) {
         type: m_method,
         url: m_action,
         data: m_data,
-        dataType: "html",
+        dataType: "json",
         success: function(response){
-            document.getElementById("CommentNew").reset();
-            //   alert($('#commetslist  blockquote:last-child').attr('id'));
-            $('#commetslist').append(response);
-            $('#createdcomment').slideDown().removeAttr('id');
+            if (response.status == 'ok'){
+                document.getElementById("CommentNew").reset();
+                var commentModel = new CommentModel(response.data);
+                var commentView = new CommentView({model: commentModel});
+                commentView.render();
+                $('#commetslist').append(commentView.el);
+                $('#createdcomment').slideDown().removeAttr('id');
+            }    
             return false;
         },
         error: function(response) {

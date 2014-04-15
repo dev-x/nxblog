@@ -31,29 +31,28 @@ class CommentController extends Controller
 	public function actionCreate()
     {
         $model = new Comment();
-        
-                if ($model->load($_POST) && !Yii::$app->user->isGuest) {
-                    $model->parent_type = 0;
-                    $model->user_id = Yii::$app->user->id;
-                    $model->created = date("Y-m-d H:i:s");
-                    if ($model->save()) {
-						//$this->redirect(array('post/show', 'id'=>$_POST['Comment']['parent_id']));
+        if ($model->load($_POST) && !Yii::$app->user->isGuest) {
+            $model->parent_type = 0;
+            $model->user_id = Yii::$app->user->id;
+            $model->created = date("Y-m-d H:i:s");
+
+            if ($model->save()) {
+                $res['status'] = 'ok';
+                if(Yii::$app->request->isAjax) {
+                    $res['data']['username'] = Yii::$app->user->identity->username;
+                    $res['data']['userurl'] = HTML::url(['user/show', 'username' => Yii::$app->user->identity->username]);
+                    if (!empty($model->author->avatar)) {
+                        $res['data']['avatarurl'] = Yii::$app->homeUrl.str_replace(".", "_is.", $model->author->avatar);
                     }
-                    if(Yii::$app->request->isAjax) {
-                        $str='<blockquote id="createdcomment">';
-                if (!empty($model->author->avatar)) {
-                $str=$str.'<div style="float:right"><img class="author-image" src='.Yii::$app->homeUrl.str_replace(".", "_is.", $model->author->avatar).'></div>';
-			   }
-	$str=$str."<text style='font-size:18px' class='text-primary'>".HTML::a(Yii::$app->user->identity->username, ['user/show', 'username' => Yii::$app->user->identity->username])."<text class='text-info' style='font-size:12px'> | ".$model->created."</text></text>"."<text style='float:right'>";
-	if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $model->user_id)){
-	$str=$str;//.Html::a('Delete',array('comment/delete','id'=>$model->id,'idP'=>$post->id));	
-	}
-						
-			$str=$str.'</text><div class="btn-default">'.$model->content.'</br>'.'</div></blockquote>';
-                                                echo $str;
-                                                } else 
-                  $this->redirect(array('post/show', 'id'=>$model->parent_id));
+                    $res['data']['datetime'] =  $model->created;
+                    $res['data']['content'] =  $model->content;
                 }
+            } else $res['status'] = 'error';
+        } else $res['status'] = 'error';
+        if(Yii::$app->request->isAjax) 
+            echo json_encode($res);
+        else 
+            $this->redirect(array('post/show', 'id'=>$model->parent_id));
     }
 	
 	public function actionDelete($id,$idP)
