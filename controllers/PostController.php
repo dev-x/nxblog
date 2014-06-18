@@ -73,6 +73,22 @@ class PostController extends Controller
 			$this->redirect($_SERVER['HTTP_REFERER']);
 	}
 	
+    
+    public function actionEddit($id)
+	{
+		if($model = Post::find($id)){
+				if ($model->load($_POST)) {
+					if ($model->save()){
+						Yii::$app->session->setFlash('PostEdit');
+						$this->redirect(array('post/show', 'id'=>$model->id));
+					}
+				}else{
+					echo $this->render('edit', array('model' => $model));
+				}
+		}
+		
+	}
+    
 	public function actionEdit($id)
 	{
         $model = Post::find($id); 

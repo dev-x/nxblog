@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\ActiveDataProvider;
 use app\models\User;
+use app\models\Lists;
 
 class SiteController extends Controller
 {
@@ -65,6 +66,7 @@ class SiteController extends Controller
 		$model = new LoginForm();
 		if ($model->load($_POST) && $model->login()) {
 			return $this->goBack();
+           // $this->redirect(array('/post/index'));
 		} else {
 //            echo "-".\yii\helpers\BaseSecurity::generatePasswordHash($model->password)."-";
 			return $this->render('login', [
@@ -97,9 +99,10 @@ class SiteController extends Controller
 	{
 		return $this->render('about');
 	}
+	
 	public function actionSignup()
 	{
-
+			$list = Lists::find()->all();
              $model = new User();
 			 $model->scenario = 'register';
 		if ($model->load($_POST)){
@@ -113,8 +116,9 @@ class SiteController extends Controller
 	}
 		return $this->render('signup', [
 			'model' => $model,
+			'list' => $list,
 		]);
-        }
+    }
 
     public function actionAddvk()
     {

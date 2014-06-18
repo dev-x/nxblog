@@ -1,10 +1,4 @@
 $(document).ready(function(){
-
-    //$('#CommentNew').off('submit');
-    //$('#CommentNew').submit( );
-    //alert('asassasasasazsasassasa');sert
-	
-		
 		$('#disp').click(function(){
 				if($('#disp').text() == "Відкрити"){
 					$("#infoTwo").slideDown(500);
@@ -15,7 +9,44 @@ $(document).ready(function(){
 				}
 			//
 		});
+              
+        $('#newComment').focus(function(){
+            $(this).attr('rows','3');
+        });
+        
+        $('#newComment').focusout(function(){
+            if( $(this).val() == "" ){
+                $(this).attr('rows','1');
+            }
+            
+        });
+        
+        $('#newPostTitle').focus(function(){
+            
+                $('#newPostContent').show(1000);
+                //$('#newPostContent').css('display','block');
+    
+		});
+		
+		$('#kartinka img').click(function(){
+			alert('dvsvfvs');
+		})
 });
+
+ $(document).click( function(event){
+      if( $(event.target).closest("#qw").length ) 
+        return;
+      $('#newPostContent').hide(1000);
+      event.stopPropagation();
+    });
+
+$('document').ready(function(){
+        $('#galleri img').click(function(){
+            //alert("dhjhdbv");
+            $("#photoqwer img").attr("src",this.src);
+        });
+        
+ });
 
 var CommentModel = Backbone.Model.extend({});
 
@@ -24,7 +55,7 @@ var CommentView = Backbone.View.extend({
    //     this.render();
    // },
     render: function(){
-        this.$el.html( _.template($('#template-post-element').html(), this.model.toJSON()));
+        this.$el.html( _.template($('#template-comment-element').html(), this.model.toJSON()));
     }
 });
 
@@ -187,7 +218,7 @@ function submitComment($form) {
     function afterLoadImageAvatar(url) {
         console.log(url);
         var forimage = document.getElementById("forimage");
-        forimage.innerHTML = '<img src="'+url+'" />';
+        forimage.innerHTML = '<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="'+url+'" />';
     }
 
     function afterLoadImagePost(url, id, post_id) {
@@ -203,7 +234,7 @@ function submitComment($form) {
 function deleteImage(id) {
 //    alert(url); return;
     url = $('#post_images').attr('data-delurl')+'?id='+id;
-    $.ajax  ({
+    Backbone.ajax  ({
         url: url,
         method: 'get',
         dataType: "json",

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function onPhoto(){
+/*	function onPhoto(){
 		var photo = document.getElementById('photo')
 		var shadow = document.getElementById('shadow')
 		shadow.style.display = "block";
@@ -17,16 +17,19 @@
 			img.onclick = onPhoto;
 			var photo = document.getElementById('photo');
 			photo.onclick = hidePhoto
-		} 
+		} */
+		$(document).ready(function(){
+			alert('fsvfvs');
+		});
 </script>
 	
 <div class="row wrap">
 	<div class="col-sm-9">
 		<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
-		<div style="margin-top:15px;" class="col-sm-12">
+		<div id="kartinka" style="margin-top:15px;" class="col-sm-12">
 			<?php foreach ($modelUser->userImages as $image) : ?>
 				<?php $src =  Yii::$app->homeUrl."content/".$image->file_name."_m".$image->file_ext; ?>
-				<img id="kartinka" class="imge" src="<?= $src; ?>"></img>
+				<img class="imge" src="<?= $src; ?>"></img>
 			<?php endforeach; ?>
 		</div>
 	</div>

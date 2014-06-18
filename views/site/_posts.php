@@ -22,26 +22,45 @@
 										//echo Html::a('Delete',array('post/delete','id'=>$post->id));} 
 								?></div> -->
 					<div class="conte"><?= mb_substr($post->content, 0, 300, "UTF-8")."..."; ?></div>
-					<div class="post_images" >
+					<div align="center" style="margin-bottom:10px;" class="post_images" >
 							<?php if ($post->images) foreach($post->images as $postImage): ?>
-								<div><img src="<?php echo $postImage->getImageUrl('small'); ?>"></div>
+                               
+                                
+								<!--<img  src="<?php// echo $postImage->getImageUrl('small'); ?>"> -->
 							<?php endforeach; ?>
+                      <?php if ($post->images){
+                                $qwert = count($post->images);
+                                if($qwert == 1){ ?>
+                                    <span align="center" class="imgPicture">
+                                        <img src="<?php echo $postImage->getImageUrl('medium'); ?>" alt="Картинка 1" border="0">
+                                    </span>
+                                <?php }
+                                if($qwert >= 2){
+                                   for($i=0; $i<2; $i++) { ?>
+                                
+                                <span align="center" class="imgPicture3">
+                                        <img src="<?php echo $post->images[$i]->getImageUrl('medium'); ?>" alt="Картинка 1" border="0">
+                                </span>   
+                                
+                                <?php
+                              } 
+                                }
+                                
+                            } ?>
 					</div>
 
 								<ul class="list-inline">
 									<?php if($post->author->avatar == null){ ?>
-										<li><img style="width:40px;" src="<?= Yii::$app->homeUrl; ?>img/no_avatar.png"></li>
+										<li><img style="width:20px;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif"></img></li>	
 										<?php }else { ?>
 										<li><img style="height:30px; width:25px;" src="<?= Yii::$app->homeUrl; ?><?= $post->author->avatar; ?>"></li>
 									<?php } ?>
 										<li style="margin-left:-8px;"><?= HTML::a($post->author->username, ['user/show', 'username' => $post->author->username]) ?></li>
 										<li><a href=""><span class="glyphicon glyphicon-time"></span><i><?php echo $post->post_time ?></i></a></li>
 										<li><a href=""><i class="glyphicon glyphicon-comment"></i> <?php echo $post->ccount; ?> - Коментарів </a></li><li><a href=""> 
-										<i class="glyphicon glyphicon-share"></i> Переглядів</a></li>
+                                        <li style="float:right" ><button type="submit" class="btn btn-default pull-right"><?php  echo Html::a("Дочитати", array('post/show', 'id'=>$post->id));  ?></button></li>
 								</ul>
-					<button type="submit" class="btn btn-default pull-right"><?php  echo Html::a("Дочитати", array('post/show', 'id'=>$post->id));  ?></button>
-					<br>
-					<br>
+					
 				</div>	
 			<?php endforeach; ?>
 		</div>
