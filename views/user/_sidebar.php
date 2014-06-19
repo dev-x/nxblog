@@ -46,10 +46,10 @@ if ($a > 0) :
 <?php if(($this->context->getRoute() == "post/index") || (strpos($this->context->getRoute(),'post') === 0)) : ?>
 	
 		<div class="col-xs-3">
-			<h3 style="color:#008B66;">Останні пости</h3>
+			<h3 style="color:#008B66;font-style: italic;">Останні пости</h3>
 			<?php foreach ($postSidebar as $post) : ?>
 				<div class="panel panel-default">
-					<div style="background-color:#00A87B;" class="panel-heading"><p style="margin-left:10px; font-size:20px;color:#fff;"><?php echo $post->title."<br>"; ?></p></div>
+					<div style="background-color:#00A87B;" class="panel-heading"><p style="margin-left:10px; font-size:20px;color:#fff;font-style: italic;"><?php echo $post->title."<br>"; ?></p></div>
 					<div class="panel-body">
 							<?php if ($post->images) foreach($post->images as $postImage): ?>
 							<?php //echo $postImage->getImageUrl('small'); ?>
