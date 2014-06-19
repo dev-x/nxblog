@@ -9,6 +9,7 @@
 			<div class="breadcrumb">
 				<p style="font-size:18px;" class="active">Видалено</p>
 			</div>
+			
 		<?php endif; ?>
 		<div id="postsl">
 			<?php foreach ($data as $post) : ?>
