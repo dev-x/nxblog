@@ -5,7 +5,9 @@ $this->title = $modelUser->username;
 //$this->some_var;
 ?>
 <script type="text/template" id="template-image-element">
-    <img src="<%= src %>">
+	<span align="center" class="imgPicture">
+        <img src="<%= src %>" alt="Картинка 1" border="0">
+    </span>
 </script>
 <script type="text/template" id="template-post-element">
     <div id="createdpost" class="col-cm-12">
@@ -18,9 +20,8 @@ $this->title = $modelUser->username;
                 <li><img style="width:20px;" src="<%= avatarurl %>"></img></li>
                 <li><a href="<%= autorUrl %>"><%= autorName %></a></li>
                 <li><a href=""><span class="glyphicon glyphicon-time"></span><i><%= timePost %></i></a></li>
-                <li><a href=""><i class="glyphicon glyphicon-comment"></i><%= comentCountPost %></a></li>
-                <li><a href=""><i class="glyphicon glyphicon-share"></i> Переглядів</a></li>
-            </ul>
+                <li><a href=""><i class="glyphicon glyphicon-comment"></i><%= comentCountPost %> - Коментарів </a></li>
+              </ul>
         <button type="submit" class="btn btn-default pull-right"><a href="<%= titleUrl %>">Дочитати</a></button>
     </div>	
 </script>
@@ -40,6 +41,7 @@ $this->title = $modelUser->username;
                             <?= $form->field($modelNewPost, 'title')->textInput(['placeholder' => 'Заголовок нового поста', 'id' => 'newPostTitle']); ?>
                         <div id="newPostContent" style="display:none;">
                             <?= $form->field($modelNewPost, 'content')->textArea(['rows' => 6 , 'placeholder' => 'Текст нового поста', 'id'=>'textNewPost']); ?>
+							<!--'class'=>'widgEditor nothing-->
                             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']); ?>
                         <?php ActiveForm::end(); ?>
                     <?php \app\lib\LoadImageWidget::myRun($modelImage, 'image/create', 'form_upload_post_image', 'post', $modelNewPost->id?$modelNewPost->id:0 /*$modelNewPost->id*/); ?>
