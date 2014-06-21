@@ -32,30 +32,14 @@ use yii\helpers\Html;
 				<p style="font-size:18px;" class="active">Збережено</p>
 			</div>
 		<?php endif; ?>
-			<div style="padding:12px 0px 10px 10px;margin-top:-20px;" class="col-sm-12">
-                    <?php if ($post->images) foreach($post->images as $postImage):
-                                       $qwe = $postImage->getImageUrl('medium'); 	
-                                endforeach; ?>
-                      <?php if($qwe){  ?>
-                            <div class="col-sm-12" style="padding:0px; ">
-                                <div id="photoqwer" align="center" style="width:auto; height:auto;">
-                                        
-                                        <img src="<?php echo $qwe;?>" style="width:100%;border:3px double #ddd;">
-                                </div>
-                                <div id="galleri" align="center" style="padding:5px; margin-top:5px; border-top:2px solid #D7E0FF; border-bottom:2px solid #D7E0FF; background-color:#F2F5FF;">
+			<div style="padding:12px 0px 10px 10px;margin-top:-20px;" class="col-sm-12">         
+                            
                                     <?php if ($post->images) foreach($post->images as $postImage):  ?>
                                     <?php //echo $postImage->getImageUrl('small'); ?>
-                                            <img style="opacity:0.8; cursor:pointer; border:5px double #ddd; margin-left:7px;width:64px;" src="<?php echo $postImage->getImageUrl('medium');?>"> 
+                                            <a href="<?php echo $postImage->getImageUrl('medium');?>" rel="prettyPhoto[<?php echo $post->id;?>]"><img align="center" style="float:left;margin: 7px 7px 7px 0;border:5px double #ddd; width:49%;" src="<?php echo $postImage->getImageUrl('medium');?>"></a>
                                     <?php endforeach; ?>
-                                    <?php   //echo $post->images[0]->getImageUrl('medium');
-                                            //echo $post->images[1]->getImageUrl('medium');
-                                            //echo $post->images[2]->getImageUrl('medium');
-
-                                    ?>
-                                </div>
-                            </div>
-                           <?php }; ?>
-					<p style="font-size:16px; font-family:'Times New Roman';"><?php echo $post->content; ?></p>
+									
+					<?php echo $post->content; ?>
 			</div>
 				<p class="text-right"><?php
                    		if (Yii::$app->user->id == $post->user_id){

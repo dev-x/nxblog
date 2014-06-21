@@ -1,7 +1,7 @@
 $(document).ready(function(){
 				
 				
-		$("a[rel='prettyPhoto']").prettyPhoto();
+		$("a[rel*='prettyPhoto']").prettyPhoto();
 				
 		$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:13000, autoplay_slideshow: true});
 				//$(".gallery:gt(0) a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
@@ -230,9 +230,10 @@ function submitComment($form) {
     }
 
     function afterLoadImagePost(url, id, post_id) {
-        console.log(url, id);
+        console.log(url, id, post_id);
         $('#post_images').append('<div id="divimage'+id+'"><img src="'+url+'"><span class="delete_button" onClick="deleteImage('+id+');"><span class="delete"></span></span></div>');
         $('#PostNew').attr('action', $('#PostNew').data('edit')+'?id='+post_id);
+        $('#form_upload_post_image #image-parent_id').val(post_id);
     }
 
 

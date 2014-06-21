@@ -24,8 +24,8 @@ class AppAsset extends AssetBundle
 	public $js = [
         'js/underscore.js',
         'js/backbone.js',
-        //'https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js',
-		'js/jquery.prettyPhoto.js',
+        'js/widgEditor.js',
+        'js/jquery.prettyPhoto.js',
         'js/jq.js',
 	];
         

@@ -31,22 +31,11 @@
 							<?php endforeach; ?>
                       <?php if ($post->images){
                                 $qwert = count($post->images);
-                                if($qwert == 1){ ?>
+                                if($qwert){ ?>
                                     <span align="center" class="imgPicture">
-                                        <img src="<?php echo $postImage->getImageUrl('medium'); ?>" alt="Картинка 1" border="0">
+                                        <a href="<?php echo $postImage->getImageUrl('medium'); ?>" rel="prettyPhoto[<?php echo $post->id; ?>]"><img  src="<?php echo $postImage->getImageUrl('medium'); ?>"></a>
                                     </span>
-                                <?php }
-                                if($qwert >= 2){
-                                   for($i=0; $i<2; $i++) { ?>
-                                
-                                <span align="center" class="imgPicture3">
-                                        <img src="<?php echo $post->images[$i]->getImageUrl('medium'); ?>" alt="Картинка 1" border="0">
-                                </span>   
-                                
-                                <?php
-                              } 
-                                }
-                                
+                                <?php } 
                             } ?>
 					</div>
 
