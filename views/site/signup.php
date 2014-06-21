@@ -13,14 +13,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-signup">
 <?php foreach ($list as $list_item){
 		$dropdown_data[$list_item->id] = $list_item->name;
-	}  
+	}
 	$stat = ['чоловіча'=>'чоловіча','Жіноча' =>'Жіноча'];
 		?>
 	<h1><?= Html::encode($this->title) ?></h1>
 	<div class="row">
-	
-		<div class="col-lg-5">
-			<?php $form = ActiveForm::begin(['id' => 'form-signup'
+
+		<div class="col-lg-12">
+			<?php $form = ActiveForm::begin(['id' => 'form-signup',
+				'options' => ['class' => 'form-horizontal'],
+				'fieldConfig' => [
+					'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+					'labelOptions' => ['class' => 'col-lg-2 control-label'],
+				],
+
 			]); ?>
 				<?= $form->field($model, 'username') ?>
 				<?= $form->field($model, 'email') ?>
