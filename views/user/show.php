@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\HTML;
+use yii\helpers\Url;
 $this->title = $modelUser->username;
 //$this->some_var;
 ?>
@@ -14,7 +15,7 @@ $this->title = $modelUser->username;
         <h2 style="margin-left:10px;"><a href="<%= titleUrl %>"><%= titlePost %></a></h2>
             <div class="post_images" >
                 <%= images %>
-            </div>
+            </div> 
             <div class="col-sm-12"><%= contentPost %></div>
             <ul class="list-inline">
                 <li><img style="width:20px;" src="<%= avatarurl %>"></img></li>
@@ -23,29 +24,30 @@ $this->title = $modelUser->username;
                 <li><a href=""><i class="glyphicon glyphicon-comment"></i><%= comentCountPost %> - Коментарів </a></li>
               </ul>
         <button type="submit" class="btn btn-default pull-right"><a href="<%= titleUrl %>">Дочитати</a></button>
-    </div>
+    </div>	
 </script>
 <div class="row wrap">
 	<div class="col-sm-9">
 			<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 			<?php
 				if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $modelUser->id) && ($modelUser->dozvil == 1)) {
-					$edit_action = Html::url('post/edit');
+					$edit_action = Url::toRoute('post/edit');
 					if ($modelNewPost->id)
-						$action =  Html::url(['post/edit', 'id' => $modelNewPost->id]);
+						$action =  Url::toRoute(['post/edit', 'id' => $modelNewPost->id]);
 					else
-						$action =  Html::url('post/create');
+						$action =  Url::toRoute('post/create');
 					?>
                 <div style="padding:20px;margin-top:50px; background-color:#F7FFFE;" class="well bs-component" id="qw">
-                        <?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action], 'beforeSubmit' => new \yii\web\JsExpression('submitPost')]); ?>
-                            <?= $form->field($modelNewPost, 'title', ['template' => "{input}{hint}{error}"])->textInput(['placeholder' => 'Заголовок нового поста', 'id' => 'newPostTitle']); ?>
+                        <?php  /* needfix $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action], 'beforeSubmit' => new \yii\web\JsExpression('submitPost')]); */ ?>  
+                        <?php $form = ActiveForm::begin(['id' => 'PostNew', 'action' => $action, 'options' => ['data-edit' => $edit_action]]); ?>  
+                            <?= $form->field($modelNewPost, 'title')->textInput(['placeholder' => 'Заголовок нового поста', 'id' => 'newPostTitle']); ?>
                         <div id="newPostContent" style="display:none;">
-
-                            <?= $form->field($modelNewPost, 'content',['template' => "{input}{hint}{error}"])->textArea(['rows' => 6 , 'placeholder' => 'Текст нового поста', 'id'=>'textNewPost']); ?>
+                            <?= $form->field($modelNewPost, 'content')->textArea(['rows' => 6 , 'placeholder' => 'Текст нового поста', 'id'=>'textNewPost','style'=>'max-widht:800px;']); ?>
+							<!--'class'=>'widgEditor nothing-->
                             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']); ?>
                         <?php ActiveForm::end(); ?>
                     <?php \app\lib\LoadImageWidget::myRun($modelImage, 'image/create', 'form_upload_post_image', 'post', $modelNewPost->id?$modelNewPost->id:0 /*$modelNewPost->id*/); ?>
-                    <div id="post_images" data-delurl="<?php echo Html::url('image/delete'); ?>">
+                    <div id="post_images" data-delurl="<?php echo Url::toRoute('image/delete'); ?>">
                         <?php if ($modelNewPost->id): ?>
                             <?php if ($modelNewPost->images) foreach($modelNewPost->images as $postImage): ?>
                                 <div id="divimage<?php echo $postImage->id; ?>"><img src="<?php echo $postImage->getImageUrl('small'); ?>">
@@ -56,9 +58,9 @@ $this->title = $modelUser->username;
                     </div>
                     <a href="#" class="upload_button" onClick="$('#form_upload_post_image .file_input').trigger('click'); return false;"><b>Добавити фото</b></a>
                     </div>
-                </div>
+                </div>        
                         <?php } ?>
-
+                
                 <div class="col-sm-12">
                     <div class="postsProfil">
                         <?php  echo $this->render('/site/_posts', array('data' => $modelUser->publishPosts/*,'pagination'=>$pagination*/)); ?>

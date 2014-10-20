@@ -24,7 +24,11 @@ $config = [
                 'users/<username:\w+>/<action:\w+>'=>'user/<action>',
 
             ],
-        ],
+        ],    'request' => [
+        'enableCookieValidation' => true,
+        'enableCsrfValidation' => true,
+        'cookieValidationKey' => 'xxxxxxx',
+    ],
 		'cache' => [
 			'class' => 'yii\caching\FileCache',
 		],
@@ -54,10 +58,11 @@ $config = [
 ];
 
 if (YII_ENV_DEV) {
-	// configuration adjustments for 'dev' environment
-	$config['preload'][] = 'debug';
-	$config['modules']['debug'] = 'yii\debug\Module';
-	$config['modules']['gii'] = 'yii\gii\Module';
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = 'yii\debug\Module';
+
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = 'yii\gii\Module';
 }
 
 return $config;

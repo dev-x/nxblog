@@ -1,6 +1,23 @@
 $(document).ready(function(){
-				
-				
+		
+		$('#zberezheno').click(function(){
+			$('#zberezhenoq').hide(1000);
+		})
+		
+		$('#contactView').click(function(){
+			$('#shadow').show(1000);
+			$('#contact').show(1000);
+		});	
+		$('#shadow').click(function(){
+			$('#shadow').hide(1000);
+			$('#contact').hide(1000);
+		})
+		
+		$('#zberezheno').click(function(){
+			$('#zberezheno').hide(1000);
+		})
+		
+		
 		$("a[rel*='prettyPhoto']").prettyPhoto();
 				
 		$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:13000, autoplay_slideshow: true});

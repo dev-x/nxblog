@@ -2,8 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 ?>
-<div>
-<h1>Користувачі</h1>
+<div class="row wrap" style="padding:20px;">
+	<h1>Користувачі</h1>
 	<table class="table table-striped table-hover">
 	<tbody>
 		<tr>

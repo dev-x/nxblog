@@ -64,11 +64,11 @@ class ImageController extends Controller
                     $image_url = $model->getImageUrl('small');
                 if ($model->parent_type == 'user') {
                     $image_url = $model->getImageUrl('bigicon');
-                    $user = User::find($model->parent_id);
+                    $user = User::findOne($model->parent_id);
                     $user->avatar = $fn;
                     $user->save(false); // disabled validation
                 }
-                $del_url = \Yii\helpers\Html::url(['image/delete', 'id' => $model->id]);
+                $del_url = \Yii\helpers\Url::toRoute(['image/delete', 'id' => $model->id]);
                 $res['status'] = 'ok';
                 $res['id'] = $model->id;
                 $res['parent_id'] = $model->parent_id;
@@ -95,7 +95,7 @@ class ImageController extends Controller
 
     public function actionDelete($id)
     {
-        $image = Image::find($id);
+        $image = Image::findOne($id);
         $res = '{"status": "ok", "id": "'.$image->id.'"}';
         if (Yii::$app->user->id == $image->user_id)
             $image->delete();

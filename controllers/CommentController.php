@@ -40,7 +40,7 @@ class CommentController extends Controller
                 $res['status'] = 'ok';
                 if(Yii::$app->request->isAjax) {
                     $res['data']['username'] = Yii::$app->user->identity->username;
-                    $res['data']['userurl'] = HTML::url(['user/show', 'username' => Yii::$app->user->identity->username]);
+                    $res['data']['userurl'] = Url::toRoute(['user/show', 'username' => Yii::$app->user->identity->username]);
                     if (!empty($model->author->avatar)) {
                         $res['data']['avatarurl'] = Yii::$app->homeUrl.str_replace(".", "_is.", $model->author->avatar);
                     }
@@ -57,7 +57,7 @@ class CommentController extends Controller
 	
 	public function actionDelete($id,$idP)
 	{
-		$comment = Comment::find($id);
+		$comment = Comment::findOne($id);
 		$comment->delete();
 		$this->redirect(array('post/show', 'id'=>$idP));
 		//$this->redirect(array('/posts'));

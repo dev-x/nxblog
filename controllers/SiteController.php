@@ -4,9 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use yii\helpers\BaseSecurity;
-use yii\web\AccessControl;
+use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\data\ActiveDataProvider;
@@ -58,7 +58,8 @@ class SiteController extends Controller
 
 	public function actionIndex()
 	{
-		return $this->render('index');
+		//return $this->render('index');
+		return $this->redirect('post/index');
 	}
 
 	public function actionLogin()
@@ -106,7 +107,7 @@ class SiteController extends Controller
              $model = new User();
 			 $model->scenario = 'register';
 		if ($model->load($_POST)){
-		$model->password_hash = \yii\helpers\BaseSecurity::generatePasswordHash($model->password);
+		$model->password_hash = \Yii::$app->security->generatePasswordHash($model->password);
                 $model->auth_key = 'key';
                 if ($model->save()) {
 			if (Yii::$app->getUser()->login($model)) {
@@ -128,7 +129,7 @@ class SiteController extends Controller
             $content = file_get_contents($url);
             $data = json_decode($content);
             if ($data->access_token) {
-                $user = User::find(\Yii::$app->user->id);
+                $user = User::findOne(\Yii::$app->user->id);
                 $user->vk_id = $data->user_id;
                 $user->save(false); // disabled validation
 

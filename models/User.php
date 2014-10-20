@@ -2,7 +2,9 @@
 
 namespace app\models;
 
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+use \yii\web\IdentityInterface;
+
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
 	public static function tableName()
     {
@@ -16,9 +18,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public static function findIdentity($id)
 	{
-		return static::find($id);
+		return static::findOne($id);
 	}
-	
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
 	public function scenarios()
     {
         return [
@@ -30,7 +37,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	
 	public static function findByUsername($username)
 	{
-		return static::find(array('username' => $username));
+		return static::findOne(array('username' => $username));
 	}
 
 	public function getId()
@@ -50,7 +57,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function validatePassword($password)
 	{
-        return \yii\helpers\BaseSecurity::validatePassword($password, $this->password_hash);
+        return \Yii::$app->security->validatePassword($password, $this->password_hash);
 //		return $this->password === $password;
 	}
 

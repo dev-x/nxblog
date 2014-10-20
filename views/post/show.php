@@ -5,6 +5,7 @@
 $this->title = $post->title;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 <style>
     .author-image {
@@ -19,7 +20,13 @@ use yii\helpers\Html;
 	<div style="float:right"><img class="author-image" src='<%= avatarurl %>'></div>
 	<text style='font-size:18px' class='text-primary'><a hfer='<%= userurl %>'><%= username %></a>
 				<text class='text-info' style='font-size:12px'> | <%= datetime %></text></text>
-				<text style='float:right'></text>
+				<text style='float:right'>
+									<?php
+										if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $comment->user_id)){
+												echo Html::a('Delete',array('comment/delete','id'=>$comment->id,'idP'=>$post->id));	
+										}
+									?>
+				</text>
 				<div class="btn-default"><%= content %></br></div></div>
 </script>
 
@@ -28,8 +35,8 @@ use yii\helpers\Html;
 		<i style="float:right;color:#008B66;"><?php echo $post->post_time; ?></i><span style="color:#008B66;float:right;" class="glyphicon glyphicon-time"></span>
 		<h3 style="text-align:center;font-size:40px; color: black;"><font style="color:#008B66;"><?php echo $post->title; ?></font></h3>	
 		<?php if(Yii::$app->session->hasFlash('PostEdit')): ?>
-			<div class="breadcrumb">
-				<p style="font-size:18px;" class="active">Збережено</p>
+			<div id="zberezhenoq" class="breadcrumb">
+				<p style="font-size:18px;" id="zberezheno" class="active">Збережено</p>
 			</div>
 		<?php endif; ?>
 			<div style="padding:12px 0px 10px 10px;margin-top:-20px;" class="col-sm-12">         
@@ -47,8 +54,8 @@ use yii\helpers\Html;
 							} 
 					?>
 					<?php
-							if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $post->user_id)){
-								//echo Html::a('Delete',array('post/delete','id'=>$post->id));
+							if ((Yii::$app->user->id == '1' ) || (Yii::$app->user->id === $post->user_id)){
+								echo Html::a('Delete',array('post/delete','id'=>$post->id));
 							} 
 					?>
 				</p>
@@ -75,9 +82,9 @@ use yii\helpers\Html;
 								<text class='text-info' style='font-size:12px'> | ".$comment->created."</text></text>";?>
 								<text style='float:right'>
 									<?php
-									//	if ((Yii::$app->user->id === '1' ) || (Yii::$app->user->id === $comment->user_id)){
-									//			echo Html::a('Delete',array('comment/delete','id'=>$comment->id,'idP'=>$post->id));	
-									//	}
+										if ((Yii::$app->user->id == '1' ) || (Yii::$app->user->id === $comment->user_id)){
+												echo Html::a('Delete',array('comment/delete','id'=>$comment->id,'idP'=>$post->id));	
+										}
 									?>
 								</text>
 							<div class="btn-default"> <?php echo $comment->content."</br>"; ?></div>

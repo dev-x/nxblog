@@ -16,9 +16,10 @@ app\assets\AppAsset::register($this);
 <head>
 	<meta charset="<?= Yii::$app->charset ?>"/>
 	<title><?= Html::encode($this->title) ?></title>
+        <?= Html::csrfMetaTags() ?>
 	<?php $this->head(); ?>
 </head>
-<body> ABC2
+<body>
 <?php $this->beginBody(); ?>
 	<?php
 		NavBar::begin([
@@ -36,15 +37,15 @@ app\assets\AppAsset::register($this);
 			  /*Yii::$app->user->isGuest ?
 				['label' => 'Home', 'url' => ['/site/login']]:
 				['label' => 'Home', 'url' => ['/users/'.Yii::$app->user->identity->username]],*/
-				['label' => 'Головна', 'url' => ['/site/index']],
+				//['label' => 'Головна', 'url' => ['/site/index']],
 				['label' => 'Пости', 'url' => ['/post/index']],
-				['label' => 'Про нас', 'url' => ['/site/about']],
-				['label' => 'Зворотній звязок', 'url' => ['/site/contact']],
+				['label' => 'Про нас', 'url' => ['/site/contact']],
 				['label' => 'Користувачі', 'url' => ['/user/index']],
 
                 ],
+               // [])
 
-                (Yii::$app->user->isGuest ? [['label' => 'Вхід/Реєстрація', 'url' => ['/site/login']]]:
+               (Yii::$app->user->isGuest ? [['label' => 'Вхід/Реєстрація', 'url' => ['/site/login']]]:
                     [['label' => 'Ви ввійшли як (' . Yii::$app->user->identity->username .')' ,
 						'url' => ['/site/logout'],
 						'linkOptions' => ['data-method' => 'post']]]))
@@ -59,7 +60,7 @@ app\assets\AppAsset::register($this);
 		<?= $content ?>
 	</div>
 
-	<footer class="footer">
+	<footer style="background-color:transparent;" class="navbar-inverse">
 		<div class="container">
 			<p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 			<p class="pull-right"><?= Yii::powered() ?></p>

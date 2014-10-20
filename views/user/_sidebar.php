@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+$this->title = $modelUser->username;
 ?>
 </div>
 <style>
@@ -9,23 +10,16 @@ use yii\helpers\Html;
     }
 </style>
 <?php
-<<<<<<< HEAD
-$a = 0;
-if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
-if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
-if ($a > 0) :
-=======
 	if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
 	if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
 	if ($a > 0) : 
->>>>>>> fix some bugs, chenge design
 ?><div class="col-sm-3">
 	
 			<p style='font-size:19px' class='text-primary'><?= HTML::a($userX->first_name." ".$userX->last_name, ['user/show', 'username' => $userX->username]); ?></p>
 			<div id="forimage">
 			<?php  $stat = Yii::$app->user->identity->stat; if($stat == "Жіноча"){ $MG = "_G"; }else{ $MG = "_M";}?>
 				<?php if($userX->avatar == null){ ?>
-					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif">
+					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.jpg">
 				<?php }else { ?>
 					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $userX->avatar); ?>">
 				<?php }?>
@@ -54,7 +48,8 @@ if ($a > 0) :
 							<?php if ($post->images) foreach($post->images as $postImage): ?>
 							<?php //echo $postImage->getImageUrl('small'); ?>
 									<img style="width:80px; margin:0px 5px 2px 2px; float:left;box-shadow:0 0 2px #9d9d9d;" src="<?php echo $postImage->getImageUrl('small'); ?>">
-							<?php endforeach; ?>
+							<?php	break;
+							 endforeach; ?>
 						<div style="width:100%;">
 							<?= mb_substr($post->content, 0, 100, "UTF-8")."..."; ?>
 						</div>
@@ -64,5 +59,4 @@ if ($a > 0) :
 				<hr>
 			<?php endforeach; ?>
 		</div>
-	 
 <?php endif; ?>
