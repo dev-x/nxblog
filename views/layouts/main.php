@@ -18,7 +18,7 @@ app\assets\AppAsset::register($this);
 	<title><?= Html::encode($this->title) ?></title>
 	<?php $this->head(); ?>
 </head>
-<body>
+<body> ABC
 <?php $this->beginBody(); ?>
 	<?php
 		NavBar::begin([
