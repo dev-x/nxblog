@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+$this->title = $modelUser->username;
 ?>
 </div>
 <style>
@@ -9,17 +10,16 @@ use yii\helpers\Html;
     }
 </style>
 <?php
-$a = 0;
-if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
-if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
-if ($a > 0) :
+	if(strpos($this->context->getRoute(),'user') === 0) { $a = 1; $userX = $modelUser; }	
+	if($this->context->getRoute() == 'post/show') { $a = 2; $userX = $author; }
+	if ($a > 0) : 
 ?><div class="col-sm-3">
 	
-			<p style='font-size:19px' class='text-primary'><?= $userX->first_name." ".$userX->last_name ?></p>
+			<p style='font-size:19px' class='text-primary'><?= HTML::a($userX->first_name." ".$userX->last_name, ['user/show', 'username' => $userX->username]); ?></p>
 			<div id="forimage">
 			<?php  $stat = Yii::$app->user->identity->stat; if($stat == "Жіноча"){ $MG = "_G"; }else{ $MG = "_M";}?>
 				<?php if($userX->avatar == null){ ?>
-					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.gif">
+					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?>content/no_avatar<?= $MG; ?>_ib.jpg">
 				<?php }else { ?>
 					<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="<?= Yii::$app->homeUrl; ?><?= str_replace('.', '_ib.', $userX->avatar); ?>">
 				<?php }?>
@@ -32,23 +32,24 @@ if ($a > 0) :
 					?>
 			<!--<button id="upload_button">Upload Image</button>-->
 			<?php endif; ?>
-				<h5><i class="glyphicon glyphicon-calendar"><b>День народження:</b></i><?php echo $userX->birthday; ?></h5>
-			    <h5><i class="glyphicon glyphicon-home"><b>Вуз:</b></i><?php echo $userX->vnz; ?></h5>
-			    <h5><i class="glyphicon glyphicon-home"><b>Група:</b></i><?php echo $userX->group_id; ?></h5>
+				<h5 style="color:#008B66;"><i class="glyphicon glyphicon-calendar"><b> День народження:</b></i><?php echo $userX->birthday; ?></h5>
+			    <h5 style="color:#008B66;"><i class="glyphicon glyphicon-home"><b> Вуз:</b></i><?php echo $userX->vnz; ?></h5>
+			    <h5 style="color:#008B66;"><i class="glyphicon glyphicon-book"><b> Група:</b></i><?php echo $userX->group_id; ?></h5>
 		</div>
 <?php endif; ?>
 <?php if(($this->context->getRoute() == "post/index") || (strpos($this->context->getRoute(),'post') === 0)) : ?>
 	
 		<div class="col-xs-3">
-			<h4>Найбільш обговорювані</h4>
+			<h3 style="color:#008B66;font-style: italic;">Останні пости</h3>
 			<?php foreach ($postSidebar as $post) : ?>
 				<div class="panel panel-default">
-					<div class="panel-heading"><p style="font-size:20px;"><?php echo $post->title."<br>"; ?></p></div>
+					<div style="background-color:#00A87B;" class="panel-heading"><p style="margin-left:10px; font-size:20px;color:#fff;font-style: italic;"><?php echo $post->title."<br>"; ?></p></div>
 					<div class="panel-body">
 							<?php if ($post->images) foreach($post->images as $postImage): ?>
 							<?php //echo $postImage->getImageUrl('small'); ?>
 									<img style="width:80px; margin:0px 5px 2px 2px; float:left;box-shadow:0 0 2px #9d9d9d;" src="<?php echo $postImage->getImageUrl('small'); ?>">
-							<?php endforeach; ?>
+							<?php	break;
+							 endforeach; ?>
 						<div style="width:100%;">
 							<?= mb_substr($post->content, 0, 100, "UTF-8")."..."; ?>
 						</div>
@@ -58,5 +59,4 @@ if ($a > 0) :
 				<hr>
 			<?php endforeach; ?>
 		</div>
-	 
 <?php endif; ?>

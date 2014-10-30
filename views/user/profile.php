@@ -2,21 +2,6 @@
 	use yii\helpers\Html;
 ?>
 
-<script type="text/javascript">
-	/*	var visible = true;
-	function showFun() {
-		if(visible) {
-			document.getElementById('infoTwo' ).style.display = 'none';
-			document.getElementById('disp' ).firstChild.nodeValue = "Відкрити";
-			visible = false;
-		} else {
-			document.getElementById('infoTwo' ).style.display = 'block';
-			document.getElementById('disp' ).firstChild.nodeValue = "Закрити";
-			visible = true;
-		}
-	}
-*/
-</script>
 <style>
 	#infoTwo{
 		display:none;
@@ -26,17 +11,17 @@
 		<div class="col-sm-9">
 		<?php echo $this->render('_menu', array('modelUser' => $modelUser)); ?>
 			<div class="page-header clearfix">
-				<div style="width:93%;float:left;font-color:green;" class="col-sm-11"><p style="font-size:18px;"><?php echo HTML::a('Основна інформація ');?></p></div>
-				<div style="width:5%;float:left;" class="col-sm-1">
+				<div style="width:80%;float:left;font-color:green;" class="col-sm-10"><p style="font-size:18px;"><?php echo HTML::a('Основна інформація ');?></p></div>
+				<div style="width:20%;float:left;" class="col-sm-2">
 					<?php
 						if (Yii::$app->user->id === $modelUser->id){
 							echo HTML::a('Update ',array('edit','id'=>$modelUser->id));
-							//HTML::url('site/addvk')
+                            echo " | ";
+							echo HTML::a('Add VK','http://oauth.vk.com/authorize?client_id=4190651&redirect_uri='.\Yii::$app->getUrlManager()->createAbsoluteUrl('site/addvk').'&scope=offline&display=page&response_type=code');
+						//HTML::url('site/addvk')
 							//
 							//\Yii::$app->getUrlManager()->createUrl();
-							echo HTML::a('Add VK',
-								'http://oauth.vk.com/authorize?client_id=4190651&redirect_uri='.\Yii::$app->getUrlManager()->createAbsoluteUrl('site/addvk').'&scope=offline&display=page&response_type=code');
-						}
+                        }
 						?>
 				</div>
 			</div>
@@ -56,7 +41,7 @@
 					</tr>
 				</table>
 			</div>
-		<?php if(($modelUser->city && $modelUser->vnz && $modelUser->group_id && $modelUser->skype && $modelUser->myCredo && $modelUser->myInfo != null ) && ($modelUser->birthday != 0000-00-00)){ ?>
+		<?php// if(($modelUser->city && $modelUser->vnz && $modelUser->group_id && $modelUser->skype && $modelUser->myCredo && $modelUser->myInfo != null ) && ($modelUser->birthday != 0000-00-00)){ ?>
 		<div id="drygor">
 		<div class="page-header clearfix">
 		
@@ -65,17 +50,17 @@
 					<a type="submit"><p id="disp">Відкрити</p></a>
 				</div>
 		</div>
-		<div id="infoTwo" style="margin-left:20px;">
+		<div id="infoTwo" style="margin-left:20px;padding-bottom:20px;">
 			<?php if($modelUser->city != null){ echo "Місто:<strong>".$modelUser->city."</br>"; } ?></strong>
 			<?php if($modelUser->vnz != null){ echo "ВНЗ:<strong>".$modelUser->vnz."</br>"; } ?></strong>
-			<?php if($modelUser->groupVnz != null){ echo "Група:<strong>".$modelUser->groupVnz."</br>"; } ?></strong>
+			<?php if($modelUser->group_id != null){ echo "Група:<strong>".$modelUser->group_id."</br>"; } ?></strong>
 			<?php if($modelUser->birthday != 0000-00-00){ echo "Дата народження:<strong>".$modelUser->birthday."</br>"; } ?></strong>
 			<?php if($modelUser->skype != null){ echo "Skype:<strong>".$modelUser->skype."</br>"; } ?></strong>
 			<?php if($modelUser->myCredo != null){ echo "Кредо:<strong>".$modelUser->myCredo."</br>"; } ?></strong>
 			<?php if($modelUser->myInfo != null){ echo "Інформація про мене:<strong>".$modelUser->myInfo."</br>"; } ?></strong>
 		</div>
 		</div>
-		<?php } ?>
+		<?php// } ?>
 	</div>
 	<div class="avatar">
 		<?php echo $this->render('_sidebar', array('modelUser' => $modelUser, 'modelImage' => $modelImage)); ?>

@@ -47,7 +47,7 @@ class UserController extends Controller
         //$images = $user->getUserImages();
         $post = null;
         if (!Yii::$app->user->isGuest && (Yii::$app->user->id == $user->id) && ($user->dozvil == 1)) {
-            $post = Post::find(array('user_id' => $user->id, 'status' => 'draft'));
+            $post = Post::findOne(array('user_id' => $user->id, 'status' => 'draft'));
         }
         if (!$post)
             $post = new Post();
@@ -75,7 +75,7 @@ class UserController extends Controller
 	
 	public function actionEdit($id)
 	{
-		if($model = User::find($id)){
+		if($model = User::findOne($id)){
 		    $model->scenario = 'profile';
 				if ($model->load($_POST)) {
 					if ($model->save()){

@@ -32,7 +32,7 @@ class PostController extends Controller
 	public function actionShow($id=null)
 	{
 		if ($id){ 
-		$post = Post::find($id);
+		$post = Post::findOne($id);
 		//$comments = Comment::find()->where(['parent_id' => $id])->all();
 	      //print_r($comments);
               	    
@@ -65,17 +65,33 @@ class PostController extends Controller
 
 	public function actionDelete($id)
 	{
-		$post = Post::find($id);
+		$post = Post::findOne($id);
         if ( $post ) {
 				$post->delete();
             }    
 			Yii::$app->session->setFlash('PostDeleted');
-			$this->redirect($_SERVER['HTTP_REFERER']);
+			$this->redirect('post/index');
 	}
 	
+    
+    public function actionEddit($id)
+	{
+		if($model = Post::findOne($id)){
+				if ($model->load($_POST)) {
+					if ($model->save()){
+						Yii::$app->session->setFlash('PostEdit');
+						$this->redirect(array('post/show', 'id'=>$model->id));
+					}
+				}else{
+					echo $this->render('edit', array('model' => $model));
+				}
+		}
+		
+	}
+    
 	public function actionEdit($id)
 	{
-        $model = Post::find($id); 
+        $model = Post::findOne($id); 
         if ($model->load($_POST) && !Yii::$app->user->isGuest) {
             $model->status = 'publish';
             if ($model->save()) {
@@ -114,8 +130,8 @@ class PostController extends Controller
     
     private function genResponseData(&$post) {
         $res['status'] = 'ok';
-                    $res['data']['titleUrl'] = HTML::url(['post/show', 'id' => $post->id]);
-                    $res['data']['autorUrl'] = HTML::url(['user/show', 'username' => $post->author->username]);
+                    $res['data']['titleUrl'] = Url::toRoute(['post/show', 'id' => $post->id]);
+                    $res['data']['autorUrl'] = Url::toRoute(['user/show', 'username' => $post->author->username]);
                     $res['data']['autorName'] = $post->author->username;
                     $res['data']['titlePost'] = $post->title;
                     $res['data']['timePost'] = $post->post_time;

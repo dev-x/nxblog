@@ -1,9 +1,38 @@
 $(document).ready(function(){
+		
+		$('#zberezheno').click(function(){
+			$('#zberezhenoq').hide(1000);
+		})
+		
+		$('#contactView').click(function(){
+			$('#shadow').show(1000);
+			$('#contact').show(1000);
+		});	
+		$('#shadow').click(function(){
+			$('#shadow').hide(1000);
+			$('#contact').hide(1000);
+		})
+		
+		$('#zberezheno').click(function(){
+			$('#zberezheno').hide(1000);
+		})
+		
+		
+		$("a[rel*='prettyPhoto']").prettyPhoto();
+				
+		$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:13000, autoplay_slideshow: true});
+				//$(".gallery:gt(0) a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+		
+				$("#custom_content a[rel^='prettyPhoto']:first").prettyPhoto({
+					custom_markup: '<div id="map_canvas" style="width:260px; height:265px"></div>',
+					changepicturecallback: function(){ initialize(); }
+				});
 
-    //$('#CommentNew').off('submit');
-    //$('#CommentNew').submit( );
-    //alert('asassasasasazsasassasa');sert
-	
+				$("#custom_content a[rel^='prettyPhoto']:last").prettyPhoto({
+					custom_markup: '<div id="bsap_1259344" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div><div id="bsap_1237859" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6" style="height:260px"></div><div id="bsap_1251710" class="bsarocks bsap_d49a0984d0f377271ccbf01a33f2b6d6"></div>',
+					changepicturecallback: function(){ _bsap.exec(); }
+				}); 
+		
 		
 		$('#disp').click(function(){
 				if($('#disp').text() == "Відкрити"){
@@ -15,7 +44,34 @@ $(document).ready(function(){
 				}
 			//
 		});
+              
+        $('#newComment').focus(function(){
+            $(this).attr('rows','3');
+        });
+        
+        $('#newComment').focusout(function(){
+            if( $(this).val() == "" ){
+                $(this).attr('rows','1');
+            }
+            
+        });
+        
+        $('#newPostTitle').focus(function(){
+            
+                $('#newPostContent').show(1000);
+                //$('#newPostContent').css('display','block');
+    
+		});
+		
 });
+
+ $(document).click( function(event){
+      if( $(event.target).closest("#qw").length ) 
+        return;
+      $('#newPostContent').hide(1000);
+      event.stopPropagation();
+    });
+
 
 var CommentModel = Backbone.Model.extend({});
 
@@ -24,7 +80,7 @@ var CommentView = Backbone.View.extend({
    //     this.render();
    // },
     render: function(){
-        this.$el.html( _.template($('#template-post-element').html(), this.model.toJSON()));
+        this.$el.html( _.template($('#template-comment-element').html(), this.model.toJSON()));
     }
 });
 
@@ -187,13 +243,14 @@ function submitComment($form) {
     function afterLoadImageAvatar(url) {
         console.log(url);
         var forimage = document.getElementById("forimage");
-        forimage.innerHTML = '<img src="'+url+'" />';
+        forimage.innerHTML = '<img style="border-radius: 4px; width:260px; box-shadow:0px 0px 5px #9d9d9d;" src="'+url+'" />';
     }
 
     function afterLoadImagePost(url, id, post_id) {
-        console.log(url, id);
+        console.log(url, id, post_id);
         $('#post_images').append('<div id="divimage'+id+'"><img src="'+url+'"><span class="delete_button" onClick="deleteImage('+id+');"><span class="delete"></span></span></div>');
         $('#PostNew').attr('action', $('#PostNew').data('edit')+'?id='+post_id);
+        $('#form_upload_post_image #image-parent_id').val(post_id);
     }
 
 
@@ -203,7 +260,7 @@ function submitComment($form) {
 function deleteImage(id) {
 //    alert(url); return;
     url = $('#post_images').attr('data-delurl')+'?id='+id;
-    $.ajax  ({
+    Backbone.ajax  ({
         url: url,
         method: 'get',
         dataType: "json",

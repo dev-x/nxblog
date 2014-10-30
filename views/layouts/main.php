@@ -16,9 +16,10 @@ app\assets\AppAsset::register($this);
 <head>
 	<meta charset="<?= Yii::$app->charset ?>"/>
 	<title><?= Html::encode($this->title) ?></title>
+        <?= Html::csrfMetaTags() ?>
 	<?php $this->head(); ?>
 </head>
-<body> ABC2
+<body>
 <?php $this->beginBody(); ?>
 	<?php
 		NavBar::begin([
@@ -27,30 +28,31 @@ app\assets\AppAsset::register($this);
 				['/users/'.Yii::$app->user->identity->username.''],
 			'options' => [
 				'class' => 'navbar-inverse navbar-fixed-top',
-				'style' => 'background-color:#000034;',
+				'style' => ' background-color:#00936b;',
 			],
         ]);
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav pull-right'],
-			'items' => [
+			'items' => array_merge([
 			  /*Yii::$app->user->isGuest ?
 				['label' => 'Home', 'url' => ['/site/login']]:
 				['label' => 'Home', 'url' => ['/users/'.Yii::$app->user->identity->username]],*/
-				['label' => 'Posts', 'url' => ['/post/index']],
-				['label' => 'About', 'url' => ['/site/about']],
-				['label' => 'Contact', 'url' => ['/site/contact']],
-				['label' => 'Users', 'url' => ['/user/index']],
-				['label' => 'Signup', 'url' => ['/site/signup']] ,
-				Yii::$app->user->isGuest ?
-					['label' => 'Login', 'url' => ['/site/login']] :
-					['label' => 'Logout (' . Yii::$app->user->identity->username .')' ,
+				//['label' => 'Головна', 'url' => ['/site/index']],
+				['label' => 'Пости', 'url' => ['/post/index']],
+				['label' => 'Про нас', 'url' => ['/site/contact']],
+				['label' => 'Користувачі', 'url' => ['/user/index']],
+
+                ],
+               // [])
+
+               (Yii::$app->user->isGuest ? [['label' => 'Вхід/Реєстрація', 'url' => ['/site/login']]]:
+                    [['label' => 'Ви ввійшли як (' . Yii::$app->user->identity->username .')' ,
 						'url' => ['/site/logout'],
-						'linkOptions' => ['data-method' => 'post']],
-			],
+						'linkOptions' => ['data-method' => 'post']]]))
 		]);
 		NavBar::end();
 	?>
-	<div style="min-height: 109px; margin-top:-30px; width:100%; background-color: #000044; color: #aaaacc;" class="page-header clearfix"></div>
+	<!--<div style="min-height: 140px; margin-top:-30px; width:100%; background-color: #B0D0C7; color: #aaaacc;" class="page-header clearfix"></div> -->
 	<div class="container">
 		<?=Breadcrumbs::widget([
 			'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -58,7 +60,7 @@ app\assets\AppAsset::register($this);
 		<?= $content ?>
 	</div>
 
-	<footer class="footer">
+	<footer style="background-color:transparent;" class="navbar-inverse">
 		<div class="container">
 			<p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 			<p class="pull-right"><?= Yii::powered() ?></p>

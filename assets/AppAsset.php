@@ -18,11 +18,14 @@ class AppAsset extends AssetBundle
 	public $basePath = '@webroot';
 	public $baseUrl = '@web';
 	public $css = [
+		'css/prettyPhoto.css',
 		'css/site.css',
 	];
 	public $js = [
         'js/underscore.js',
         'js/backbone.js',
+        'js/widgEditor.js',
+        'js/jquery.prettyPhoto.js',
         'js/jq.js',
 	];
         
